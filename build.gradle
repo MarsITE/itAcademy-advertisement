@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'academy.softserve'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.16'
+    implementation 'org.testng:testng:7.1.0'
+    implementation 'org.testng:testng:7.1.0'
+    implementation 'org.testng:testng:7.1.0'
+    compileOnly('javax:javaee-api:8.0.1')
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+
+    implementation('org.thymeleaf:thymeleaf:3.0.11.RELEASE')
+
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.15.Final'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version: '6.0.2.Final'
+
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
+    compile group: 'org.glassfish.web', name: 'el-impl', version: '2.2.1-b05'
+
+    testImplementation('org.testng:testng:7.1.0')
+
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+
+    compile group: 'javax.el', name: 'javax.el-api', version: '3.0.1-b06'
+
+    compile group: 'jstl', name: 'jstl', version: '1.2'
+}
+
+test {
+    useJUnitPlatform()
+}
