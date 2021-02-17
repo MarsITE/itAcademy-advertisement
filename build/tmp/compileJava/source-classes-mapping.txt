@@ -1,5 +1,7 @@
 academy/softserve/repository/UserRepository.java
  academy.softserve.repository.UserRepository
+academy/softserve/configuration/tables/TablesRepository.java
+ academy.softserve.configuration.tables.TablesRepository
 academy/softserve/service/Service.java
  academy.softserve.service.Service
 academy/softserve/model/library/UserRole.java
@@ -10,8 +12,6 @@ academy/softserve/configuration/ConnectionConfig.java
  academy.softserve.configuration.ConnectionConfig
 academy/softserve/service/AdvertService.java
  academy.softserve.service.AdvertService
-academy/softserve/controller/UsersServlet.java
- academy.softserve.controller.UsersServlet
 academy/softserve/service/ValidatorService.java
  academy.softserve.service.ValidatorService
 academy/softserve/service/UserService.java
@@ -19,20 +19,16 @@ academy/softserve/service/UserService.java
 academy/softserve/model/Advert.java
  academy.softserve.model.Advert
  academy.softserve.model.Advert$AdvertBuilder
-academy/softserve/repository/TablesRepository.java
- academy.softserve.repository.TablesRepository
 academy/softserve/model/library/UserStatus.java
  academy.softserve.model.library.UserStatus
-academy/softserve/controller/HomeServlet.java
- academy.softserve.controller.HomeServlet
+academy/softserve/repository/Repository.java
+ academy.softserve.repository.Repository
 academy/softserve/repository/AdvertRepository.java
  academy.softserve.repository.AdvertRepository
-academy/softserve/controller/AdvertServlet.java
- academy.softserve.controller.AdvertServlet
 academy/softserve/model/User.java
  academy.softserve.model.User
  academy.softserve.model.User$UserBuilder
 academy/softserve/model/library/AdvertGenre.java
  academy.softserve.model.library.AdvertGenre
-academy/softserve/repository/Repository.java
- academy.softserve.repository.Repository
+academy/softserve/controller/HomeServlet.java
+ academy.softserve.controller.HomeServlet

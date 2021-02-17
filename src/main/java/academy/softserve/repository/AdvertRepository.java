@@ -5,16 +5,15 @@ import academy.softserve.model.Advert;
 import academy.softserve.model.User;
 import academy.softserve.model.library.AdvertGenre;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static academy.softserve.repository.TablesRepository.*;
+import static academy.softserve.configuration.tables.TablesRepository.*;
 
 public class AdvertRepository implements Repository<Advert> {
 
-    ConnectionConfig config = new ConnectionConfig();
+    ConnectionConfig config = new ConnectionConfig("db.properties");
 
     @Override
     public Advert save(Advert advert) {
@@ -38,7 +37,7 @@ public class AdvertRepository implements Repository<Advert> {
                 advert.setId(rs.getInt(1));
             }
             rs.close();
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
         return advert;
@@ -53,7 +52,7 @@ public class AdvertRepository implements Repository<Advert> {
             while (rs.next()) {
                 advert = getObject(rs);
             }
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
         return advert;
@@ -76,7 +75,7 @@ public class AdvertRepository implements Repository<Advert> {
             ps.setString(5, String.valueOf(advert.getAdvertGenre()));
             ps.setLong(6, advert.getId());
             ps.executeUpdate();
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
         return advert;
@@ -88,7 +87,7 @@ public class AdvertRepository implements Repository<Advert> {
         try (Statement statement = config.getConnection().createStatement()) {
             statement.executeUpdate(query);
             return true;
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
             return false;
         }
@@ -103,7 +102,7 @@ public class AdvertRepository implements Repository<Advert> {
             while (result.next()) {
                 adverts.add(getObject(result));
             }
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
         return adverts;

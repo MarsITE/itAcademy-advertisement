@@ -1,36 +1,47 @@
 package academy.softserve.configuration;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ConnectionConfig {
 
-//    private Path path;
+    private String path;
 
-/*    public ConnectionConfig(Path path) {
+    public ConnectionConfig(String path) {
         this.path = path;
-    }*/
-
-    public ConnectionConfig() {
     }
 
-    public Connection getConnection() throws SQLException, IOException {
-/*        Properties properties = new Properties();
-        try (InputStream is = Files.newInputStream(path)) {
-            properties.load(is);
-            String url = properties.getProperty("JDBC_URL");
-            String userName = properties.getProperty("JDBC_USER");
-            String password = properties.getProperty("JDBC_PASSWORD");*/
+    Properties properties;
+
+
+    private boolean loadProperties(){
+        properties = new Properties();
+        ClassLoader classLoader = getClass().getClassLoader();
+        try (InputStream input = classLoader.getResourceAsStream(path)) {
+            if (input != null) {
+                properties.load(input);
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Connection getConnection() throws SQLException {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String userName = "postgres";
-        String password = "postgres";
+        loadProperties();
+        String url = properties.getProperty("JDBC_URL");
+        String userName = properties.getProperty("JDBC_USER");
+        String password = properties.getProperty("JDBC_PASSWORD");
         return DriverManager.getConnection(url, userName, password);
     }
 }

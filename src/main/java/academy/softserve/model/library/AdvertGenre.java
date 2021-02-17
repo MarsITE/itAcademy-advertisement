@@ -7,7 +7,8 @@ import java.util.Map;
 public enum AdvertGenre {
     DESIGN ("Design"),
     LIFE ("Life"),
-    IT ("It");
+    IT ("It"),
+    SPORT ("Sport");
 
     private static final Map<String, AdvertGenre> VALUES = new HashMap<>();
 

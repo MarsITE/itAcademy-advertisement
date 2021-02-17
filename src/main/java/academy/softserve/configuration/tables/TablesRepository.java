@@ -1,32 +1,31 @@
-package academy.softserve.repository;
+package academy.softserve.configuration.tables;
 
 import academy.softserve.configuration.ConnectionConfig;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TablesRepository {
-    protected static final String TABLE_USER_NAME = "Users";
-    protected static final String USER_ID = "id";
-    protected static final String USER_FIRST_NAME = "firstName";
-    protected static final String USER_LAST_NAME = "lastName";
-    protected static final String USER_PASSWORD = "password";
-    protected static final String USER_DATE_OF_BIRTH = "dateOfBirth";
-    protected static final String USER_EMAIL = "email";
-    protected static final String USER_ROLE = "role";
-    protected static final String USER_STATUS = "status";
+    public static final String TABLE_USER_NAME = "Users";
+    public static final String USER_ID = "id";
+    public static final String USER_FIRST_NAME = "firstName";
+    public static final String USER_LAST_NAME = "lastName";
+    public static final String USER_PASSWORD = "password";
+    public static final String USER_DATE_OF_BIRTH = "dateOfBirth";
+    public static final String USER_EMAIL = "email";
+    public static final String USER_ROLE = "role";
+    public static final String USER_STATUS = "status";
 
-    protected static final String TABLE_ADVERT_NAME = "Adverts";
-    protected static final String ADVERT_ID = "id";
-    protected static final String ADVERT_TITLE = "title";
-    protected static final String ADVERT_DESCRIPTION = "description";
-    protected static final String ADVERT_PUBLISHING_DATE = "publishingDate";
-    protected static final String ADVERT_ENDING_DATE = "endingDate";
-    protected static final String ADVERT_GENRE = "genre";
-    protected static final String ADVERT_AUTHOR = "author";
+    public static final String TABLE_ADVERT_NAME = "Adverts";
+    public static final String ADVERT_ID = "id";
+    public static final String ADVERT_TITLE = "title";
+    public static final String ADVERT_DESCRIPTION = "description";
+    public static final String ADVERT_PUBLISHING_DATE = "publishingDate";
+    public static final String ADVERT_ENDING_DATE = "endingDate";
+    public static final String ADVERT_GENRE = "genre";
+    public static final String ADVERT_AUTHOR = "author";
 
-    ConnectionConfig config = new ConnectionConfig();
+    ConnectionConfig config = new ConnectionConfig("db.properties");
 
     public boolean createTables() {
         try (Statement statement = config.getConnection().createStatement()) {
@@ -51,7 +50,7 @@ public class TablesRepository {
             statement.execute(query1);
             statement.execute(query2);
             return true;
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
             return false;
         }
@@ -64,7 +63,7 @@ public class TablesRepository {
             statement.execute(query1);
             statement.execute(query2);
             return true;
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
             return false;
         }

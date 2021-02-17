@@ -4,7 +4,7 @@ import academy.softserve.model.*;
 import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
 import academy.softserve.repository.AdvertRepository;
-import academy.softserve.repository.TablesRepository;
+import academy.softserve.configuration.tables.TablesRepository;
 import academy.softserve.repository.UserRepository;
 import academy.softserve.service.AdvertService;
 import academy.softserve.service.Service;

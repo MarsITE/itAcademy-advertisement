@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Adverts</title>
@@ -24,7 +24,6 @@
 <br>
 
 <div class="row">
-    <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
 
     <div class="container">
         <h3 class="text-center">List of Adverts</h3>
@@ -37,7 +36,6 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Title</th>
                 <th>Publishing date</th>
                 <th>Ending date</th>
@@ -46,21 +44,19 @@
             </tr>
             </thead>
             <tbody>
-            <!--   for (Todo todo: todos) {  -->
             <c:forEach var="advert" items="${adverts}">
 
                 <tr>
-                    <td><c:out value="${advert.id}" /></td>
-                    <td><c:out value="${advert.title}" /></td>
-                    <td><c:out value="${advert.publishingDate}" /></td>
-                    <td><c:out value="${advert.endingDate}" /></td>
-                    <td><c:out value="${advert.advertGenre.name}" /></td>
-                    <td><a href="edit?advertId=<c:out value='${advert.id}' />">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <a
-                                href="delete?advertId=<c:out value='${advert.id}' />">Delete</a></td>
+                    <td><a title="${advert.description}" href="advert-info?advertId=<c:out value='${advert.id}' />"> <c:out value="${advert.title}"/> </a> </td>
+                    <td><c:out value="${advert.publishingDate}"/></td>
+                    <td><c:out value="${advert.endingDate}"/></td>
+                    <td><c:out value="${advert.advertGenre.name}"/></td>
+                    <td>
+                        <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
+                        <a href="delete?advertId=<c:out value='${advert.id}' />"> Delete </a>
+                    </td>
                 </tr>
             </c:forEach>
-            <!-- } -->
             </tbody>
 
         </table>

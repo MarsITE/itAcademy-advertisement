@@ -5,16 +5,15 @@ import academy.softserve.model.User;
 import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static academy.softserve.repository.TablesRepository.*;
+import static academy.softserve.configuration.tables.TablesRepository.*;
 
 public class UserRepository implements Repository<User> {
 
-    ConnectionConfig config = new ConnectionConfig();
+    ConnectionConfig config = new ConnectionConfig("db.properties");
 
     @Override
     public User save(User user) {
@@ -40,7 +39,7 @@ public class UserRepository implements Repository<User> {
             while (rs.next()) {
                 user.setId(rs.getInt(1));
             }
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
         return user;
@@ -55,7 +54,7 @@ public class UserRepository implements Repository<User> {
             while (rs.next()) {
                 user = getObject(rs);
             }
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
         return user;
@@ -82,7 +81,7 @@ public class UserRepository implements Repository<User> {
             ps.setString(7, String.valueOf(user.getUserStatus()));
             ps.setLong(8, user.getId());
             ps.executeUpdate();
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
         return user;
@@ -94,7 +93,7 @@ public class UserRepository implements Repository<User> {
         try (Statement statement = config.getConnection().createStatement()) {
             statement.executeUpdate(query);
             return true;
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
             return false;
         }
@@ -109,7 +108,7 @@ public class UserRepository implements Repository<User> {
             while (result.next()) {
                 users.add(getObject(result));
             }
-        } catch (SQLException | IOException throwable) {
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
         return users;
