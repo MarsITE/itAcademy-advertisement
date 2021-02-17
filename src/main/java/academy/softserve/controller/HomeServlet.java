@@ -46,14 +46,35 @@ public class HomeServlet extends HttpServlet {
             case "/delete":
                 deleteAdvert(request, response);
                 break;
+            case "/deleteUser":
+                deleteUser(request, response);
+                break;
             case "/edit":
                 showEditForm(request, response);
                 break;
             case "/update":
                 updateAdvert(request, response);
                 break;
+            case "/editUser":
+                userEditForm(request, response);
+                break;
+            case "/updateUser":
+                updateUser(request, response);
+                break;
             case "/advert-info":
                 infoAdvert(request, response);
+                break;
+            case "/registration":
+                userRegistration(request, response);
+                break;
+            case "/addUser":
+                addUser(request, response);
+                break;
+            case "/signin":
+                userSignIn(request, response);
+                break;
+            case "/userlist":
+                listUser(request, response);
                 break;
             default:
                 listAdvert(request, response);
@@ -65,6 +86,13 @@ public class HomeServlet extends HttpServlet {
         adverts = advertService.findAll();
         request.setAttribute("adverts", adverts);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void listUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        users = userService.findAll();
+        request.setAttribute("users", users);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/user-list.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -109,8 +137,7 @@ public class HomeServlet extends HttpServlet {
         response.sendRedirect("list");
     }
 
-    private void deleteAdvert(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    private void deleteAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException {
         long advertId = Long.parseLong(request.getParameter("advertId"));
         advertService.delete(advertId);
         response.sendRedirect("list");
@@ -125,15 +152,59 @@ public class HomeServlet extends HttpServlet {
     }
 
 
-    private void userRegistration(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void userRegistration(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/registration-form.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void userEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long id = Long.parseLong(request.getParameter("userId"));
+        User existingUser = userService.findById(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/registration-form.jsp");
+        request.setAttribute("user", existingUser);
+        dispatcher.forward(request, response);
+
+    }
+
+    private void userSignIn(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/sign-in-form.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        user = user.builder()
+                .firstName(request.getParameter("firstName"))
+                .lastName(request.getParameter("lastName"))
+                .password(request.getParameter("password"))
+                .dateOfBirth(LocalDate.parse(request.getParameter("dateOfBirth")))
+                .email(request.getParameter("email"))
+                .userRole(UserRole.USER)
+                .userStatus(UserStatus.NEWCOMER)
+                .build();
         userService.save(user);
-        RequestDispatcher rd = request.getRequestDispatcher("user_list.jsp");
-        try {
-            rd.forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
-        response.sendRedirect("list");
+        response.sendRedirect("userlist");
+    }
+
+    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long userId = Integer.parseInt(request.getParameter("userId"));
+        user = user.builder()
+                .id(userId)
+                .firstName(request.getParameter("firstName"))
+                .lastName(request.getParameter("lastName"))
+                .password(request.getParameter("password"))
+                .dateOfBirth(LocalDate.parse(request.getParameter("dateOfBirth")))
+                .email(request.getParameter("email"))
+                .userRole(UserRole.USER)
+                .userStatus(UserStatus.NEWCOMER)
+                .build();
+        userService.update(user);
+        response.sendRedirect("userlist");
+    }
+
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long userId = Long.parseLong(request.getParameter("userId"));
+        userService.delete(userId);
+        response.sendRedirect("userlist");
     }
 
 }

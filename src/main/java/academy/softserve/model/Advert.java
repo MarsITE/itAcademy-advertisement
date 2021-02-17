@@ -14,7 +14,7 @@ public class Advert {
     @Size(min = 2, max = 25, message = "Title must be between 2 and 25 characters")
     private String title;
 
-    @Size(min = 2, max = 50, message = "Description must be between 2 and 25 characters")
+    @Size(min = 2, max = 1000, message = "Description must be between 2 and 1000 characters")
     private String description;
 
     private LocalDate publishingDate;

@@ -34,32 +34,35 @@
     <div class="container">
         <h3 class="text-center">List of Adverts</h3>
         <hr>
-        <div class="container text-left">
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add New Advert</a>
 
         <br>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Title</th>
-                <th>Publishing date</th>
-                <th>Ending date</th>
-                <th>Genre</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Date Of Birth</th>
+                <th>Role</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="advert" items="${adverts}">
+
+            <c:forEach var="user" items="${users}">
 
                 <tr>
-                    <td><a title="${advert.description}" href="advert-info?advertId=<c:out value='${advert.id}' />"> <c:out value="${advert.title}"/> </a> </td>
-                    <td><c:out value="${advert.publishingDate}"/></td>
-                    <td><c:out value="${advert.endingDate}"/></td>
-                    <td><c:out value="${advert.advertGenre.name}"/></td>
+                    <td><c:out value="${user.firstName}"/></td>
+                    <td><c:out value="${user.lastName}"/></td>
+                    <td><c:out value="${user.email}"/></td>
+                    <td><c:out value="${user.dateOfBirth}"/></td>
+                    <td><c:out value="${user.userRole.name}"/></td>
+                    <td><c:out value="${user.userStatus.name}"/></td>
                     <td>
-                        <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
+                        <a href="editUser?userId=<c:out value='${user.id}' />"> Edit </a>
 
-                        <a style="margin-left: 20px" href="delete?advertId=<c:out value='${advert.id}' />"> Delete </a>
+                        <a style="margin-left: 20px" href="deleteUser?userId=<c:out value='${user.id}' />"> Delete </a>
                     </td>
                 </tr>
             </c:forEach>

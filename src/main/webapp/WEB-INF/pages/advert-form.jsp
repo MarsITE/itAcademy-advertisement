@@ -20,6 +20,7 @@
                    class="nav-link">Adverts</a></li>
         </ul>
     </nav>
+
 </header>
 <br>
 <div class="container col-md-5">
@@ -54,7 +55,7 @@
                                                            name="title" required="required">
                     </fieldset>
 
-                    <fieldset class="form-group">
+                    <fieldset class="form-control">
                         <label>Advert Description</label> <input type="text"
                                                                  value="<c:out value='${advert.description}' />"
                                                                  class="form-control"
@@ -76,7 +77,7 @@
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>Advert Genre</label> <input type="text"
+                        <label>Advert Genre</label> <input type="text" maxlength="1000"
                                                            value="<c:out value='${advert.advertGenre.name}' />"
                                                            class="form-control"
                                                            name="advertGenre" required="required">
