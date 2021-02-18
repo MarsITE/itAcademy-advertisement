@@ -3,12 +3,13 @@ package academy.softserve.main;
 import academy.softserve.model.*;
 import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
-import academy.softserve.repository.AdvertRepository;
+import academy.softserve.repository.AdvertRepositoryImpl;
 import academy.softserve.configuration.tables.TablesRepository;
-import academy.softserve.repository.UserRepository;
+import academy.softserve.repository.UserRepositoryImpl;
 import academy.softserve.service.AdvertService;
-import academy.softserve.service.Service;
+import academy.softserve.service.AdvertServiceImpl;
 import academy.softserve.service.UserService;
+import academy.softserve.service.UserServiceImpl;
 
 import java.time.LocalDate;
 
@@ -33,7 +34,7 @@ public class Main {
                 .userRole(UserRole.USER).userStatus(UserStatus.NEWCOMER).build();
 
 
-        UserRepository ur = new UserRepository();
+        UserRepositoryImpl ur = new UserRepositoryImpl();
 /*        ur.save(user1);
         ur.save(user2);
         ur.save(user3);*/
@@ -60,7 +61,7 @@ public class Main {
                 .endingDate(LocalDate.of(2022, 1, 1))
                 .advertGenre(AdvertGenre.LIFE).author(user3).build();*/
 
-        AdvertRepository ar = new AdvertRepository();
+        AdvertRepositoryImpl ar = new AdvertRepositoryImpl();
 /*        ar.save(advert1);
         ar.save(advert2);
         ar.save(advert3);*/
@@ -73,9 +74,9 @@ public class Main {
         //     System.out.println(ar.findById(1));
         //     System.out.println(ar.findAll());
 
-        Service<User> userService = new UserService();
+        UserService userService = new UserServiceImpl();
         System.out.println(userService.findAll());
-        Service<Advert> advertService = new AdvertService();
+       AdvertService advertService = new AdvertServiceImpl();
         System.out.println(advertService.findAll());
         System.out.println(userService.findById(1));
     }

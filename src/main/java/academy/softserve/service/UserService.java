@@ -1,41 +1,21 @@
 package academy.softserve.service;
 
 import academy.softserve.model.User;
-import academy.softserve.repository.Repository;
-import academy.softserve.repository.UserRepository;
 
 import java.util.List;
 
-public class UserService implements Service<User> {
+public interface UserService {
+    User save(User user);
 
-    private Repository<User> repository;
+    User update(User user);
 
-    public UserService() {
-        this.repository = new UserRepository();
-    }
+    boolean delete(long id);
 
-    @Override
-    public User save(User user) {
-        return repository.save(user);
-    }
+    User findById(long id);
 
-    @Override
-    public User update(User user) {
-        return repository.update(user);
-    }
+    List<User> findAll();
 
-    @Override
-    public boolean delete(long id) {
-        return repository.delete(id);
-    }
+    User findByLoginAndPassword(String login, String password);
 
-    @Override
-    public User findById(long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public List<User> findAll() {
-        return repository.findAll();
-    }
+    User findByLogin(String login);
 }

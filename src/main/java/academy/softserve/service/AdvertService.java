@@ -1,42 +1,17 @@
 package academy.softserve.service;
 
 import academy.softserve.model.Advert;
-import academy.softserve.repository.AdvertRepository;
-import academy.softserve.repository.Repository;
 
 import java.util.List;
 
-public class AdvertService implements Service<Advert> {
+public interface AdvertService {
+    Advert save(Advert advert);
 
-    private Repository<Advert> repository;
+    Advert update(Advert advert);
 
+    boolean delete(long id);
 
-    public AdvertService() {
-        this.repository = new AdvertRepository();
-    }
+    Advert findById(long id);
 
-    @Override
-    public Advert save(Advert advert) {
-        return repository.save(advert);
-    }
-
-    @Override
-    public Advert update(Advert advert) {
-        return repository.update(advert);
-    }
-
-    @Override
-    public boolean delete(long id) {
-        return repository.delete(id);
-    }
-
-    @Override
-    public Advert findById(long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public List<Advert> findAll() {
-        return repository.findAll();
-    }
+    List<Advert> findAll();
 }

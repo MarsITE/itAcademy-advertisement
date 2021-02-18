@@ -1,7 +1,7 @@
 package academy.softserve.model;
 
 import academy.softserve.model.library.AdvertGenre;
-import academy.softserve.service.ValidatorService;
+import academy.softserve.service.ValidatorServiceImpl;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -129,7 +129,7 @@ public class Advert {
         }
 
         public Advert build(){
-            new ValidatorService<Advert>().validate(newAdvert);
+            new ValidatorServiceImpl<Advert>().validate(newAdvert);
             return newAdvert;
         }
     }

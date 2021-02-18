@@ -2,7 +2,7 @@ package academy.softserve.model;
 
 import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
-import academy.softserve.service.ValidatorService;
+import academy.softserve.service.ValidatorServiceImpl;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -165,7 +165,7 @@ public class User {
 
         public User build() {
             newUser.setAdverts(newAdverts);
-            new ValidatorService<User>().validate(newUser);
+            new ValidatorServiceImpl<User>().validate(newUser);
             return newUser;
         }
     }

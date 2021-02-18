@@ -33,6 +33,12 @@ dependencies {
     compile group: 'javax.el', name: 'javax.el-api', version: '3.0.1-b06'
 
     compile group: 'jstl', name: 'jstl', version: '1.2'
+
+    compile 'org.apache.tomcat.embed:tomcat-embed-jasper:8.0.47'
+
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation "org.mindrot:jbcrypt:0.4"
+    implementation group: 'com.jkoolcloud.tnt4j', name: 'servlet.filter', version: '0.5'
 }
 
 test {

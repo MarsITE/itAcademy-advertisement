@@ -21,6 +21,10 @@
         </ul>
     </nav>
 
+    <style>
+
+    </style>
+
 </header>
 <br>
 <div class="container col-md-5">
@@ -55,11 +59,13 @@
                                                            name="title" required="required">
                     </fieldset>
 
-                    <fieldset class="form-control">
-                        <label>Advert Description</label> <input type="text"
-                                                                 value="<c:out value='${advert.description}' />"
-                                                                 class="form-control"
-                                                                 name="description" required="required">
+                    <fieldset class="form-group">
+                        <label>Advert Description</label>
+                        <textarea type="text"
+                                  class="form-control"
+                                  name="description" required="required">
+                        <c:out value='${advert.description}'/>
+                        </textarea>
                     </fieldset>
 
                     <fieldset class="form-group">
@@ -77,7 +83,7 @@
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>Advert Genre</label> <input type="text" maxlength="1000"
+                        <label>Advert Genre</label> <input type="text"
                                                            value="<c:out value='${advert.advertGenre.name}' />"
                                                            class="form-control"
                                                            name="advertGenre" required="required">

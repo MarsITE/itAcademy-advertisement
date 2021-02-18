@@ -8,7 +8,7 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 public class UserRepositoryTest {
-    UserRepository ur = new UserRepository();
+    UserRepositoryImpl ur = new UserRepositoryImpl();
     User user1;
     User user2;
     User user3;

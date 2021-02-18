@@ -5,8 +5,8 @@ import academy.softserve.model.User;
 import academy.softserve.model.library.AdvertGenre;
 import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
-import academy.softserve.service.AdvertService;
-import academy.softserve.service.UserService;
+import academy.softserve.service.AdvertServiceImpl;
+import academy.softserve.service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,15 +18,23 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import static academy.softserve.controller.LoginUtil.*;
+
 @WebServlet(urlPatterns = "/")
 public class HomeServlet extends HttpServlet {
 
-    private final AdvertService advertService = new AdvertService();
-    private final UserService userService = new UserService();
+    private final AdvertServiceImpl advertService = new AdvertServiceImpl();
+    private final UserServiceImpl userService = new UserServiceImpl();
     List<Advert> adverts;
     Advert advert;
     List<User> users;
-    User user = User.builder().id(1).firstName("Andrii").lastName("Prybyla").password("1234").dateOfBirth(LocalDate.of(1985, 8, 6)).email("mars@ukr.net").userRole(UserRole.USER).userStatus(UserStatus.NEWCOMER).build();
+
+    User user;
+
+    @Override
+    public void init() throws ServletException {
+        servletContext = getServletContext();
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -66,6 +74,9 @@ public class HomeServlet extends HttpServlet {
                 break;
             case "/registration":
                 userRegistration(request, response);
+                break;
+            case "/login":
+                loginUser(request, response);
                 break;
             case "/addUser":
                 addUser(request, response);
@@ -116,7 +127,7 @@ public class HomeServlet extends HttpServlet {
                 .description(request.getParameter("description"))
                 .publishingDate(LocalDate.parse(request.getParameter("publishingDate")))
                 .endingDate(LocalDate.parse(request.getParameter("endingDate")))
-                .advertGenre(AdvertGenre.valueOf(request.getParameter("advertGenre")))
+                .advertGenre(AdvertGenre.getByName(request.getParameter("advertGenre")))
                 .author(user)
                 .build();
         advertService.save(advert);
@@ -172,17 +183,19 @@ public class HomeServlet extends HttpServlet {
     }
 
     private void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String password = request.getParameter("password");
+        String hashedPassword = hashPassword(password);
         user = user.builder()
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
-                .password(request.getParameter("password"))
+                .password(hashedPassword)
                 .dateOfBirth(LocalDate.parse(request.getParameter("dateOfBirth")))
                 .email(request.getParameter("email"))
                 .userRole(UserRole.USER)
                 .userStatus(UserStatus.NEWCOMER)
                 .build();
         userService.save(user);
-        response.sendRedirect("userlist");
+        response.sendRedirect("list");
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -207,4 +220,22 @@ public class HomeServlet extends HttpServlet {
         response.sendRedirect("userlist");
     }
 
+    private void loginUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        String hashedPassword = hashPassword(password);
+
+        if (checkPassword(password, hashedPassword)) {
+            user = userService.findByLogin(username);
+            response.sendRedirect("list");
+        } else {
+            response.getWriter().write("error: Invalid login or password!");
+        }
+    }
+
+    @Override
+    public void destroy() {
+        servletContext = null;
+    }
 }
