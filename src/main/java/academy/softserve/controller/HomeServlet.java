@@ -94,6 +94,8 @@ public class HomeServlet extends HttpServlet {
     }
 
     private void listAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        user = userService.findByLogin(request.getParameter("username"));
+        request.setAttribute("user", user);
         adverts = advertService.findAll();
         request.setAttribute("adverts", adverts);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
@@ -195,7 +197,8 @@ public class HomeServlet extends HttpServlet {
                 .userStatus(UserStatus.NEWCOMER)
                 .build();
         userService.save(user);
-        response.sendRedirect("list");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/userlist");
+        dispatcher(request, response, rd);
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -228,7 +231,7 @@ public class HomeServlet extends HttpServlet {
 
         if (checkPassword(password, hashedPassword)) {
             user = userService.findByLogin(username);
-            response.sendRedirect("list");
+            response.sendRedirect("userlist");
         } else {
             response.getWriter().write("error: Invalid login or password!");
         }

@@ -17,14 +17,14 @@ public class AdvertRepositoryImpl implements AdvertRepository {
 
     @Override
     public Advert save(Advert advert) {
-        String sql = new StringBuilder().append("insert into ").append(TABLE_ADVERT_NAME).append(" (")
+        String query = new StringBuilder().append("insert into ").append(TABLE_ADVERT_NAME).append(" (")
                 .append(ADVERT_TITLE).append(", ")
                 .append(ADVERT_DESCRIPTION).append(", ")
                 .append(ADVERT_PUBLISHING_DATE).append(", ")
                 .append(ADVERT_ENDING_DATE).append(", ")
                 .append(ADVERT_GENRE).append(", ")
                 .append(ADVERT_AUTHOR).append(") values (?, ?, ?, ?, ?, ?)").toString();
-        try (PreparedStatement ps = config.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = config.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, advert.getTitle());
             ps.setString(2, advert.getDescription());
             ps.setDate(3, Date.valueOf(advert.getPublishingDate()));
@@ -45,10 +45,11 @@ public class AdvertRepositoryImpl implements AdvertRepository {
 
     @Override
     public Advert findById(long id) {
-        String sql = "select * from " + TABLE_ADVERT_NAME + " where " + ADVERT_ID + "=" + id;
+        String query = new StringBuilder().append("select * from ").append(TABLE_ADVERT_NAME).append(" where ")
+                .append(ADVERT_ID).append("=").append(id).toString();
         Advert advert = null;
         try (Statement statement = config.getConnection().createStatement()) {
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 advert = getObject(rs);
             }
@@ -60,14 +61,14 @@ public class AdvertRepositoryImpl implements AdvertRepository {
 
     @Override
     public Advert update(Advert advert) {
-        String sql = new StringBuilder().append("update ").append(TABLE_ADVERT_NAME).append(" set ")
+        String query = new StringBuilder().append("update ").append(TABLE_ADVERT_NAME).append(" set ")
                 .append(ADVERT_TITLE).append("=?, ")
                 .append(ADVERT_DESCRIPTION).append("=?, ")
                 .append(ADVERT_PUBLISHING_DATE).append("=?, ")
                 .append(ADVERT_ENDING_DATE).append("=?, ")
                 .append(ADVERT_GENRE).append("=? where ")
                 .append(ADVERT_ID).append("=?").toString();
-        try (PreparedStatement ps = config.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement ps = config.getConnection().prepareStatement(query)) {
             ps.setString(1, advert.getTitle());
             ps.setString(2, advert.getDescription());
             ps.setDate(3, Date.valueOf(advert.getPublishingDate()));
@@ -83,7 +84,8 @@ public class AdvertRepositoryImpl implements AdvertRepository {
 
     @Override
     public boolean delete(long id) {
-        String query = "delete from " + TABLE_ADVERT_NAME + " where " + ADVERT_ID + " = " + id;
+        String query = new StringBuilder().append("delete from ").append(TABLE_ADVERT_NAME).append(" where ")
+                .append(ADVERT_ID).append(" = ").append(id).toString();
         try (Statement statement = config.getConnection().createStatement()) {
             statement.executeUpdate(query);
             return true;
@@ -96,7 +98,7 @@ public class AdvertRepositoryImpl implements AdvertRepository {
     @Override
     public List<Advert> findAll() {
         List<Advert> adverts = new ArrayList<>();
-        String query = "select * from " + TABLE_ADVERT_NAME;
+        String query = new StringBuilder().append("select * from ").append(TABLE_ADVERT_NAME).toString();
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {

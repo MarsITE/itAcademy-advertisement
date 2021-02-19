@@ -1,6 +1,7 @@
 package academy.softserve.main;
 
 import academy.softserve.model.*;
+import academy.softserve.model.library.AdvertGenre;
 import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
 import academy.softserve.repository.AdvertRepositoryImpl;
@@ -18,7 +19,7 @@ public class Main {
 
 
         TablesRepository br = new TablesRepository();
-        // br.createTables();
+     //    br.createTables();
         //     br.dropTables();
 
         User user1 = User.builder().id(1).firstName("Andrii").lastName("Prybyla").password("1234")
@@ -48,7 +49,7 @@ public class Main {
         //     System.out.println(ur.findById(1));
         //    System.out.println(ur.findAll());
 
-/*        Advert advert1 = Advert.builder().id(1).title("Advert1").description("Some description")
+        Advert advert1 = Advert.builder().id(1).title("Advert1").description("Some description")
                 .publishingDate(LocalDate.of(1990, 1, 1))
                 .endingDate(LocalDate.of(2022, 1, 1))
                 .advertGenre(AdvertGenre.LIFE).author(user1).build();
@@ -59,7 +60,7 @@ public class Main {
         Advert advert3 = Advert.builder().id(3).title("Advert3").description("Some description")
                 .publishingDate(LocalDate.of(1999, 1, 1))
                 .endingDate(LocalDate.of(2022, 1, 1))
-                .advertGenre(AdvertGenre.LIFE).author(user3).build();*/
+                .advertGenre(AdvertGenre.LIFE).author(user3).build();
 
         AdvertRepositoryImpl ar = new AdvertRepositoryImpl();
 /*        ar.save(advert1);
@@ -75,10 +76,9 @@ public class Main {
         //     System.out.println(ar.findAll());
 
         UserService userService = new UserServiceImpl();
-        System.out.println(userService.findAll());
-       AdvertService advertService = new AdvertServiceImpl();
-        System.out.println(advertService.findAll());
-        System.out.println(userService.findById(1));
+       System.out.println(userService.findByLogin("mars@ukr.net"));
+ //       System.out.println(userService.findAll());
+
     }
 }
 

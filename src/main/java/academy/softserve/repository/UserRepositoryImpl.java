@@ -17,7 +17,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
-        String sql = new StringBuilder().append("insert into ").append(TABLE_USER_NAME).append(" (")
+        String query = new StringBuilder().append("insert into ").append(TABLE_USER_NAME).append(" (")
                 .append(USER_FIRST_NAME).append(", ")
                 .append(USER_LAST_NAME).append(", ")
                 .append(USER_PASSWORD).append(", ")
@@ -26,7 +26,7 @@ public class UserRepositoryImpl implements UserRepository {
                 .append(USER_ROLE).append(", ")
                 .append(USER_STATUS)
                 .append(") values (?, ?, ?, ?, ?, ?, ?)").toString();
-        try (PreparedStatement ps = config.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = config.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
             ps.setString(3, user.getPassword());
@@ -47,10 +47,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findById(long id) {
-        String sql = "select * from " + TABLE_USER_NAME + " where " + USER_ID + "=" + id;
+        String query = new StringBuilder().append("select * from ").append(TABLE_USER_NAME).append(" where ")
+                .append(USER_ID).append("=").append(id).toString();
         User user = null;
         try (Statement statement = config.getConnection().createStatement()) {
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 user = getObject(rs);
             }
@@ -62,7 +63,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User update(User user) {
-        String sql = new StringBuilder().append("update ").append(TABLE_USER_NAME).append(" set ")
+        String query = new StringBuilder().append("update ").append(TABLE_USER_NAME).append(" set ")
                 .append(USER_FIRST_NAME).append("=?, ")
                 .append(USER_LAST_NAME).append("=?, ")
                 .append(USER_PASSWORD).append("=?, ")
@@ -71,7 +72,7 @@ public class UserRepositoryImpl implements UserRepository {
                 .append(USER_ROLE).append("=?, ")
                 .append(USER_STATUS).append("=? where ")
                 .append(USER_ID).append("=?").toString();
-        try (PreparedStatement ps = config.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement ps = config.getConnection().prepareStatement(query)) {
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
             ps.setString(3, user.getPassword());
@@ -89,7 +90,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean delete(long id) {
-        String query = "delete from " + TABLE_USER_NAME + " where " + USER_ID + " = " + id;
+        String query = new StringBuilder().append("delete from ").append(TABLE_USER_NAME)
+                .append(" where ").append(USER_ID).append(" = ").append(id).toString();
         try (Statement statement = config.getConnection().createStatement()) {
             statement.executeUpdate(query);
             return true;
@@ -102,7 +104,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        String query = "select * from " + TABLE_USER_NAME;
+        String query = new StringBuilder().append("select * from ").append(TABLE_USER_NAME).toString();
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {
@@ -115,36 +117,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findByLoginAndPassword(String login, String password) {
-        StringBuilder query = new StringBuilder();
-        User user = new User();
-        query.append("select * from ").append(TABLE_USER_NAME)
-                .append(" where ")
-                .append(USER_EMAIL).append("='")
-                .append(login).append("' and ")
-                .append(USER_PASSWORD).append("='")
-                .append(password).append("'");
-        try (ResultSet result = config.getConnection().createStatement().executeQuery(query.toString())) {
-            while (result.next()) {
-                user = getObject(result);
-            }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-        return user;
-    }
-
-    @Override
     public User findByLogin(String login) {
-        StringBuilder query = new StringBuilder();
-        User user = new User();
-        query.append("select * from ").append(TABLE_USER_NAME)
-                .append("where ")
-                .append(USER_EMAIL).append("=")
-                .append(login);
-        try (ResultSet result = config.getConnection().createStatement().executeQuery(query.toString())) {
-            while (result.next()) {
-                user = getObject(result);
+        String query = new StringBuilder().append("select * from ").append(TABLE_USER_NAME).append(" where ")
+                .append(USER_EMAIL).append(" = '").append(login).append("'").toString();
+        User user = null;
+        try (Statement statement = config.getConnection().createStatement()) {
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                user = getObject(rs);
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();

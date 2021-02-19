@@ -9,6 +9,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
 </head>
+
 <body>
 
 <header>
@@ -20,53 +21,66 @@
                    class="nav-link">Adverts</a></li>
             <li><a href="<%=request.getContextPath()%>/userlist"
                    class="nav-link">Users</a></li>
+
             <li><a style="margin-left: 100px" href="<%=request.getContextPath()%>/registration"
                    class="nav-link">Registration</a></li>
             <li><a href="<%=request.getContextPath()%>/signin"
                    class="nav-link">Sign in</a></li>
+            <li><a href="" class="navbar-brand">${requestScope.user.firstName}</a></li>
+
         </ul>
+
     </nav>
+
+
 </header>
 <br>
 
 <div class="row">
 
     <div class="container">
-        <h3 class="text-center">List of Adverts</h3>
+
         <hr>
         <div class="container text-left">
             <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add New Advert</a>
+            <div class="container text-left">
 
-        <br>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Publishing date</th>
-                <th>Ending date</th>
-                <th>Genre</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="advert" items="${adverts}">
+                <br>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Publishing date</th>
+                        <th>Ending date</th>
+                        <th>Genre</th>
+                        <th>Author</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                <tr>
-                    <td><a title="${advert.description}" href="advert-info?advertId=<c:out value='${advert.id}' />"> <c:out value="${advert.title}"/> </a> </td>
-                    <td><c:out value="${advert.publishingDate}"/></td>
-                    <td><c:out value="${advert.endingDate}"/></td>
-                    <td><c:out value="${advert.advertGenre.name}"/></td>
-                    <td>
-                        <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
+                    <c:forEach var="advert" items="${adverts}">
 
-                        <a style="margin-left: 20px" href="delete?advertId=<c:out value='${advert.id}' />"> Delete </a>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
+                        <tr>
+                            <td><a title="${advert.description}"
+                                   href="advert-info?advertId=<c:out value='${advert.id}' />">
+                                <c:out value="${advert.title}"/> </a></td>
+                            <td><c:out value="${advert.publishingDate}"/></td>
+                            <td><c:out value="${advert.endingDate}"/></td>
+                            <td><c:out value="${advert.advertGenre.name}"/></td>
+                            <td><c:out value="${advert.author.email}"/></td>
+                            <td>
+                                <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
 
-        </table>
-    </div>
-</div>
+                                <a style="margin-left: 20px" href="delete?advertId=<c:out value='${advert.id}' />">
+                                    Delete </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
 </body>
 </html>

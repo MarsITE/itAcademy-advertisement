@@ -1,42 +1,44 @@
-academy/softserve/service/UserServiceImpl.java
- academy.softserve.service.UserServiceImpl
-academy/softserve/repository/UserRepository.java
- academy.softserve.repository.UserRepository
+academy/softserve/service/AdvertServiceImpl.java
+ academy.softserve.service.AdvertServiceImpl
+academy/softserve/service/AdvertService.java
+ academy.softserve.service.AdvertService
 academy/softserve/configuration/tables/TablesRepository.java
  academy.softserve.configuration.tables.TablesRepository
 academy/softserve/service/ValidatorServiceImpl.java
  academy.softserve.service.ValidatorServiceImpl
 academy/softserve/model/library/UserRole.java
  academy.softserve.model.library.UserRole
-academy/softserve/main/Main.java
- academy.softserve.main.Main
+academy/softserve/model/library/UserStatus.java
+ academy.softserve.model.library.UserStatus
 academy/softserve/configuration/ConnectionConfig.java
  academy.softserve.configuration.ConnectionConfig
-academy/softserve/service/AdvertService.java
- academy.softserve.service.AdvertService
-academy/softserve/repository/AdvertRepositoryImpl.java
- academy.softserve.repository.AdvertRepositoryImpl
 academy/softserve/service/ValidatorService.java
  academy.softserve.service.ValidatorService
+academy/softserve/model/library/AdvertGenre.java
+ academy.softserve.model.library.AdvertGenre
+academy/softserve/repository/AdvertRepositoryImpl.java
+ academy.softserve.repository.AdvertRepositoryImpl
+academy/softserve/service/UserServiceImpl.java
+ academy.softserve.service.UserServiceImpl
+academy/softserve/repository/UserRepository.java
+ academy.softserve.repository.UserRepository
 academy/softserve/service/UserService.java
  academy.softserve.service.UserService
 academy/softserve/model/Advert.java
  academy.softserve.model.Advert
  academy.softserve.model.Advert$AdvertBuilder
-academy/softserve/model/library/UserStatus.java
- academy.softserve.model.library.UserStatus
-academy/softserve/model/library/AdvertGenre.java
- academy.softserve.model.library.AdvertGenre
+academy/softserve/main/Main.java
+ academy.softserve.main.Main
+academy/softserve/model/User.java
+ academy.softserve.model.User
+ academy.softserve.model.User$UserBuilder
 academy/softserve/repository/AdvertRepository.java
  academy.softserve.repository.AdvertRepository
 academy/softserve/repository/UserRepositoryImpl.java
  academy.softserve.repository.UserRepositoryImpl
+academy/softserve/controller/filter/LoginFilter.java
+ academy.softserve.controller.filter.LoginFilter
 academy/softserve/controller/LoginUtil.java
  academy.softserve.controller.LoginUtil
-academy/softserve/service/AdvertServiceImpl.java
- academy.softserve.service.AdvertServiceImpl
-academy/softserve/model/User.java
- academy.softserve.model.User
- academy.softserve.model.User$UserBuilder
 academy/softserve/controller/HomeServlet.java
  academy.softserve.controller.HomeServlet

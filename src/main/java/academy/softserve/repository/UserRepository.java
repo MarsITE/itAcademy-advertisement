@@ -15,7 +15,5 @@ public interface UserRepository {
 
     List<User> findAll();
 
-    User findByLoginAndPassword(String login, String password);
-
     User findByLogin(String login);
 }
