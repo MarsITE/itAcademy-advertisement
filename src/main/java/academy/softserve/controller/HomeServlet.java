@@ -8,33 +8,27 @@ import academy.softserve.model.library.UserStatus;
 import academy.softserve.service.AdvertServiceImpl;
 import academy.softserve.service.UserServiceImpl;
 
+import javax.jms.Session;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
-import static academy.softserve.controller.LoginUtil.*;
+import static academy.softserve.controller.util.LoginUtil.*;
 
 @WebServlet(urlPatterns = "/")
 public class HomeServlet extends HttpServlet {
 
     private final AdvertServiceImpl advertService = new AdvertServiceImpl();
     private final UserServiceImpl userService = new UserServiceImpl();
-    List<Advert> adverts;
+    private final String subject = "token";
+    private String token = "";
     Advert advert;
-    List<User> users;
-
     User user;
-
-    @Override
-    public void init() throws ServletException {
-        servletContext = getServletContext();
-    }
+    User currentUser;
+    HttpSession session;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -87,6 +81,9 @@ public class HomeServlet extends HttpServlet {
             case "/userlist":
                 listUser(request, response);
                 break;
+            case "/logOut":
+                logOut(request, response);
+                break;
             default:
                 listAdvert(request, response);
                 break;
@@ -94,17 +91,21 @@ public class HomeServlet extends HttpServlet {
     }
 
     private void listAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        user = userService.findByLogin(request.getParameter("username"));
-        request.setAttribute("user", user);
-        adverts = advertService.findAll();
-        request.setAttribute("adverts", adverts);
+
+        if (currentUser == null) {
+            currentUser = userService.findByLogin(request.getParameter("username"));
+        }
+        session = request.getSession();
+
+        session.setAttribute("currentUser", currentUser);
+
+        request.setAttribute("adverts", advertService.findAll());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
         dispatcher.forward(request, response);
     }
 
     private void listUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        users = userService.findAll();
-        request.setAttribute("users", users);
+        request.setAttribute("users", userService.findAll());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/user-list.jsp");
         dispatcher.forward(request, response);
     }
@@ -133,7 +134,7 @@ public class HomeServlet extends HttpServlet {
                 .author(user)
                 .build();
         advertService.save(advert);
-        response.sendRedirect("list");
+        response.sendRedirect("/");
     }
 
     private void updateAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -147,13 +148,13 @@ public class HomeServlet extends HttpServlet {
                 .build();
 
         advertService.update(advert);
-        response.sendRedirect("list");
+        response.sendRedirect("/");
     }
 
     private void deleteAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException {
         long advertId = Long.parseLong(request.getParameter("advertId"));
         advertService.delete(advertId);
-        response.sendRedirect("list");
+        response.sendRedirect("/");
     }
 
     private void infoAdvert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -184,7 +185,7 @@ public class HomeServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String password = request.getParameter("password");
         String hashedPassword = hashPassword(password);
         user = user.builder()
@@ -198,7 +199,7 @@ public class HomeServlet extends HttpServlet {
                 .build();
         userService.save(user);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/userlist");
-        dispatcher(request, response, rd);
+        rd.forward(request, response);
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -223,22 +224,26 @@ public class HomeServlet extends HttpServlet {
         response.sendRedirect("userlist");
     }
 
-    private void loginUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void loginUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        String hashedPassword = hashPassword(password);
-
-        if (checkPassword(password, hashedPassword)) {
-            user = userService.findByLogin(username);
-            response.sendRedirect("userlist");
+        if (!checkPassword(password, userService.findByLogin(username).getPassword())) {
+            request.setAttribute("ERROR", "Invalid email or password");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/error.jsp");
+            dispatcher.forward(request, response);
         } else {
-            response.getWriter().write("error: Invalid login or password!");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
+            rd.forward(request, response);
         }
     }
 
-    @Override
-    public void destroy() {
-        servletContext = null;
+    private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        currentUser = null;
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
+        rd.forward(request, response);
     }
 }

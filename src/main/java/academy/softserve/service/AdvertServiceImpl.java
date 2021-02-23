@@ -4,25 +4,26 @@ import academy.softserve.model.Advert;
 import academy.softserve.repository.AdvertRepositoryImpl;
 import academy.softserve.repository.AdvertRepository;
 
+import javax.validation.ValidationException;
 import java.util.List;
 
 public class AdvertServiceImpl implements AdvertService {
 
-    private AdvertRepository advertRepository;
+    private final AdvertRepository advertRepository= new AdvertRepositoryImpl();
+    private final ValidatorServiceImpl<Advert> validatorService = new ValidatorServiceImpl<>();
 
-
-    public AdvertServiceImpl() {
-        this.advertRepository = new AdvertRepositoryImpl();
+    @Override
+    public Advert save(Advert advert) throws ValidationException {
+        if (validatorService.validate(advert).isEmpty()) {
+            return advertRepository.save(advert);
+        } else {return advert;}
     }
 
     @Override
-    public Advert save(Advert advert) {
-        return advertRepository.save(advert);
-    }
-
-    @Override
-    public Advert update(Advert advert) {
-        return advertRepository.update(advert);
+    public Advert update(Advert advert) throws ValidationException {
+        if (validatorService.validate(advert).isEmpty()) {
+            return advertRepository.update(advert);
+        } else {return advert;}
     }
 
     @Override

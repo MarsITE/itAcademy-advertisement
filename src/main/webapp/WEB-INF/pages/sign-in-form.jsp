@@ -2,25 +2,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="uk">
-<head>
-    <title>Sign in</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossorigin="anonymous">
-</head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark"
-         style="background-color: tomato">
 
-        <ul class="navbar-nav">
-            <li><a href="<%=request.getContextPath()%>/list"
-                   class="nav-link">Adverts</a></li>
-        </ul>
-    </nav>
+<header>
+    <jsp:include page="header.jsp"/>
+    <br>
 </header>
-<br>
+
 <div class="login-container" align="center">
     <h1 class="label-sign-in">Log in</h1>
     <br>

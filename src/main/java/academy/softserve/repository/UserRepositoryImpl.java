@@ -132,6 +132,23 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     }
 
+    @Override
+    public List<String> findAllEmails() {
+        List<String> emails = new ArrayList<>();
+        String query = new StringBuilder().append("select ").append(TABLE_USER_NAME).append(".").append(USER_EMAIL)
+                .append(" from ").append(TABLE_USER_NAME).toString();
+
+        try (Statement statement = config.getConnection().createStatement()) {
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()) {
+                emails.add(result.getString("email"));
+            }
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
+        return emails;
+    }
+
     private User getObject(ResultSet rs) {
         User user = new User();
         try {

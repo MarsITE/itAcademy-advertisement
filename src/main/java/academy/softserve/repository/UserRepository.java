@@ -16,4 +16,6 @@ public interface UserRepository {
     List<User> findAll();
 
     User findByLogin(String login);
+
+    List<String> findAllEmails();
 }
