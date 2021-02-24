@@ -14,4 +14,5 @@ public interface AdvertService {
     Advert findById(long id);
 
     List<Advert> findAll();
+
 }

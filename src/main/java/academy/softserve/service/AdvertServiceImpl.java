@@ -9,21 +9,16 @@ import java.util.List;
 
 public class AdvertServiceImpl implements AdvertService {
 
-    private final AdvertRepository advertRepository= new AdvertRepositoryImpl();
-    private final ValidatorServiceImpl<Advert> validatorService = new ValidatorServiceImpl<>();
+    private final AdvertRepository advertRepository = new AdvertRepositoryImpl();
 
     @Override
-    public Advert save(Advert advert) throws ValidationException {
-        if (validatorService.validate(advert).isEmpty()) {
-            return advertRepository.save(advert);
-        } else {return advert;}
+    public Advert save(Advert advert) {
+        return advertRepository.save(advert);
     }
 
     @Override
-    public Advert update(Advert advert) throws ValidationException {
-        if (validatorService.validate(advert).isEmpty()) {
-            return advertRepository.update(advert);
-        } else {return advert;}
+    public Advert update(Advert advert) {
+        return advertRepository.update(advert);
     }
 
     @Override
@@ -40,4 +35,5 @@ public class AdvertServiceImpl implements AdvertService {
     public List<Advert> findAll() {
         return advertRepository.findAll();
     }
+
 }

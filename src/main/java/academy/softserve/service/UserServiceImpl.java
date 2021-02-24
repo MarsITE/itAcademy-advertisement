@@ -4,25 +4,19 @@ import academy.softserve.model.User;
 import academy.softserve.repository.UserRepository;
 import academy.softserve.repository.UserRepositoryImpl;
 
-import javax.validation.ValidationException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private final UserRepository repository= new UserRepositoryImpl();
-    private final ValidatorServiceImpl<User> validatorService = new ValidatorServiceImpl<>();
 
     @Override
-    public User save(User user) throws ValidationException {
-        if (validatorService.validate(user).isEmpty() || validatorService.isEmailUnique(user.getEmail()) == null) {
-            return repository.save(user);
-        } else {return user;}
+    public User save(User user) {
+        return repository.save(user);
     }
 
     @Override
-    public User update(User user) throws ValidationException {
-        if (validatorService.validate(user).isEmpty() || validatorService.isEmailUnique(user.getEmail()) == null) {
-            return repository.update(user);
-        } else {return user;}
+    public User update(User user) {
+        return repository.update(user);
     }
 
     @Override

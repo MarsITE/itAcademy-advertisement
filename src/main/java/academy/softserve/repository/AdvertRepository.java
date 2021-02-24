@@ -15,4 +15,5 @@ public interface AdvertRepository {
     Advert findById(long id);
 
     List<Advert> findAll();
+
 }

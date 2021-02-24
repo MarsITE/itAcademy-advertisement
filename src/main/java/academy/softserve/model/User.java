@@ -18,7 +18,7 @@ public class User {
     @Size(min = 2, max = 15, message = "LastName must be between 2 and 15 characters")
     private String lastName;
 
-    @Size(min = 4, max = 8, message = "Password must be between 4 and 8 characters")
+    @Size(min = 4, max = 64, message = "Password must be between 4 and 64 characters")
     private String password;
 
     @Past(message = "Date of birth must be in the past")

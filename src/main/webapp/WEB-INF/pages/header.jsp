@@ -16,7 +16,7 @@
          style="background-color: tomato">
 
         <ul class="navbar-nav">
-            <li><a href="<%=request.getContextPath()%>/"
+            <li><a href="<%=request.getContextPath()%>/list"
                    class="nav-link">Adverts</a></li>
             <li><a href="<%=request.getContextPath()%>/userlist"
                    class="nav-link">Users</a></li>

@@ -1,0 +1,14 @@
+academy/softserve/model/AdvertTest.java
+ academy.softserve.model.AdvertTest
+academy/softserve/repository/AdvertRepositoryTest.java
+ academy.softserve.repository.AdvertRepositoryTest
+academy/softserve/service/UserServiceTest.java
+ academy.softserve.service.UserServiceTest
+academy/softserve/service/ValidatorServiceTest.java
+ academy.softserve.service.ValidatorServiceTest
+academy/softserve/model/UserTest.java
+ academy.softserve.model.UserTest
+academy/softserve/service/AdvertServiceTest.java
+ academy.softserve.service.AdvertServiceTest
+academy/softserve/repository/UserRepositoryTest.java
+ academy.softserve.repository.UserRepositoryTest

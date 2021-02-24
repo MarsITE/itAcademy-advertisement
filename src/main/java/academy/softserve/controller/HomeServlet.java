@@ -8,7 +8,6 @@ import academy.softserve.model.library.UserStatus;
 import academy.softserve.service.AdvertServiceImpl;
 import academy.softserve.service.UserServiceImpl;
 
-import javax.jms.Session;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -84,8 +83,11 @@ public class HomeServlet extends HttpServlet {
             case "/logOut":
                 logOut(request, response);
                 break;
-            default:
+            case "/list":
                 listAdvert(request, response);
+                break;
+            default:
+                listAdvertUser(request, response);
                 break;
         }
     }
@@ -104,6 +106,20 @@ public class HomeServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    private void listAdvertUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        if (currentUser == null) {
+            currentUser = userService.findByLogin(request.getParameter("username"));
+        }
+        session = request.getSession();
+
+        session.setAttribute("currentUser", currentUser);
+
+        request.setAttribute("adverts", advertService.findAll());
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-user.jsp");
+        dispatcher.forward(request, response);
+    }
+
     private void listUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setAttribute("users", userService.findAll());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/user-list.jsp");
@@ -111,6 +127,7 @@ public class HomeServlet extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+     //   request.setAttribute("advertGenre", AdvertGenre.values());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-form.jsp");
         dispatcher.forward(request, response);
     }
@@ -131,7 +148,7 @@ public class HomeServlet extends HttpServlet {
                 .publishingDate(LocalDate.parse(request.getParameter("publishingDate")))
                 .endingDate(LocalDate.parse(request.getParameter("endingDate")))
                 .advertGenre(AdvertGenre.getByName(request.getParameter("advertGenre")))
-                .author(user)
+                .author(currentUser)
                 .build();
         advertService.save(advert);
         response.sendRedirect("/");
@@ -188,6 +205,7 @@ public class HomeServlet extends HttpServlet {
     private void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String password = request.getParameter("password");
         String hashedPassword = hashPassword(password);
+
         user = user.builder()
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
@@ -204,14 +222,14 @@ public class HomeServlet extends HttpServlet {
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         long userId = Integer.parseInt(request.getParameter("userId"));
-        user = user.builder()
+          user = user.builder()
                 .id(userId)
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
                 .password(request.getParameter("password"))
                 .dateOfBirth(LocalDate.parse(request.getParameter("dateOfBirth")))
                 .email(request.getParameter("email"))
-                .userRole(UserRole.USER)
+                .userRole(UserRole.getByName(request.getParameter("userRole")))
                 .userStatus(UserStatus.NEWCOMER)
                 .build();
         userService.update(user);
@@ -233,6 +251,9 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("ERROR", "Invalid email or password");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/error.jsp");
             dispatcher.forward(request, response);
+        } else if (userService.findByLogin(username).getUserRole() == UserRole.ADMIN) {
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/list");
+            rd.forward(request, response);
         } else {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
             rd.forward(request, response);
@@ -240,9 +261,7 @@ public class HomeServlet extends HttpServlet {
     }
 
     private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         currentUser = null;
-
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
         rd.forward(request, response);
     }

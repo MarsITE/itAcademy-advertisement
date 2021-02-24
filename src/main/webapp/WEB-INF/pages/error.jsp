@@ -4,7 +4,7 @@
 <html>
 
 <header>
-    <jsp:include page="header.jsp"/>
+    <jsp:include page="header-user.jsp"/>
     <br>
 </header>
 <body>
