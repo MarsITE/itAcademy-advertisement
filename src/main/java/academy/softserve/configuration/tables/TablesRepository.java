@@ -25,28 +25,34 @@ public class TablesRepository {
     public static final String ADVERT_GENRE = "genre";
     public static final String ADVERT_AUTHOR = "author";
 
+    public static final String VARCHAR = " varchar not null, ";
+    public static final String DROP_TABLE = "drop table if exists ";
+    public static final String CREATE_TABLE = "create table if not exists ";
+    public static final String SELECT_FROM = "select * from ";
+    public static final String WHERE = " where ";
+
     ConnectionConfig config = new ConnectionConfig("db.properties");
 
     public boolean createTables() {
         try (Statement statement = config.getConnection().createStatement()) {
-            String query1 = new StringBuilder().append("create table if not exists ").append(TABLE_USER_NAME).append(" (")
-                    .append(USER_ID).append(" serial primary key, ")
-                    .append(USER_FIRST_NAME).append(" varchar not null, ")
-                    .append(USER_LAST_NAME).append(" varchar not null, ")
-                    .append(USER_PASSWORD).append(" varchar not null, ")
-                    .append(USER_DATE_OF_BIRTH).append(" date not null, ")
-                    .append(USER_EMAIL).append(" varchar not null, ")
-                    .append(USER_ROLE).append(" varchar not null, ")
-                    .append(USER_STATUS).append(" varchar not null)").toString();
-            String query2 = new StringBuilder().append("create table if not exists ").append(TABLE_ADVERT_NAME).append(" (")
-                    .append(ADVERT_ID).append(" serial primary key, ")
-                    .append(ADVERT_TITLE).append(" varchar not null, ")
-                    .append(ADVERT_DESCRIPTION).append(" varchar not null, ")
-                    .append(ADVERT_PUBLISHING_DATE).append(" date not null, ")
-                    .append(ADVERT_ENDING_DATE).append(" date not null, ")
-                    .append(ADVERT_GENRE).append(" varchar not null, ")
-                    .append(ADVERT_AUTHOR).append(" int not null constraint adverts_users_id_fk references ")
-                    .append(TABLE_USER_NAME).append(");").toString();
+            String query1 = CREATE_TABLE + TABLE_USER_NAME + " (" +
+                    USER_ID + " serial primary key, " +
+                    USER_FIRST_NAME + VARCHAR +
+                    USER_LAST_NAME + VARCHAR +
+                    USER_PASSWORD + VARCHAR +
+                    USER_DATE_OF_BIRTH + VARCHAR +
+                    USER_EMAIL + VARCHAR +
+                    USER_ROLE + VARCHAR +
+                    USER_STATUS + " varchar not null)";
+            String query2 = CREATE_TABLE + TABLE_ADVERT_NAME + " (" +
+                    ADVERT_ID + " serial primary key, " +
+                    ADVERT_TITLE + VARCHAR +
+                    ADVERT_DESCRIPTION + VARCHAR +
+                    ADVERT_PUBLISHING_DATE + VARCHAR +
+                    ADVERT_ENDING_DATE + " date not null, " +
+                    ADVERT_GENRE + VARCHAR +
+                    ADVERT_AUTHOR + " int not null constraint adverts_users_id_fk references " +
+                    TABLE_USER_NAME + ");";
             statement.execute(query1);
             statement.execute(query2);
             return true;
@@ -58,8 +64,8 @@ public class TablesRepository {
 
     public boolean dropTables() {
         try (Statement statement = config.getConnection().createStatement()) {
-            String query1 = "drop table if exists " + TABLE_ADVERT_NAME;
-            String query2 = "drop table if exists " + TABLE_USER_NAME;
+            String query1 = DROP_TABLE + TABLE_ADVERT_NAME;
+            String query2 = DROP_TABLE + TABLE_USER_NAME;
             statement.execute(query1);
             statement.execute(query2);
             return true;

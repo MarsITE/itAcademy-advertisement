@@ -5,10 +5,11 @@ import academy.softserve.model.library.UserStatus;
 import academy.softserve.service.ValidatorServiceImpl;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class User {
+public class User implements Serializable {
 
     private long id;
 
@@ -31,7 +32,7 @@ public class User {
 
     private UserStatus userStatus;
 
-    private List<Advert> adverts;
+    private transient List<Advert> adverts;
 
     public long getId() {
         return id;

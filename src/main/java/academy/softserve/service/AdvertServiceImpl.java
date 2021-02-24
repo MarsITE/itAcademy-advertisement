@@ -4,7 +4,6 @@ import academy.softserve.model.Advert;
 import academy.softserve.repository.AdvertRepositoryImpl;
 import academy.softserve.repository.AdvertRepository;
 
-import javax.validation.ValidationException;
 import java.util.List;
 
 public class AdvertServiceImpl implements AdvertService {

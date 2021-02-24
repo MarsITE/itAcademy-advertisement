@@ -4,10 +4,12 @@ import academy.softserve.model.library.AdvertGenre;
 import academy.softserve.service.ValidatorServiceImpl;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Advert {
+public class Advert implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private long id;
 
@@ -24,7 +26,7 @@ public class Advert {
 
     private AdvertGenre advertGenre;
 
-    private User author;
+    private transient User author;
 
     public long getId() {
         return id;

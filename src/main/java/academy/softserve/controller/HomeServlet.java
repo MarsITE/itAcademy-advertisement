@@ -22,16 +22,21 @@ public class HomeServlet extends HttpServlet {
 
     private final AdvertServiceImpl advertService = new AdvertServiceImpl();
     private final UserServiceImpl userService = new UserServiceImpl();
-    private final String subject = "token";
-    private String token = "";
-    Advert advert;
-    User user;
-    User currentUser;
-    HttpSession session;
+
+    private static final String LOGIN = "username";
+    private static final String PASSWORD = "password";
+    private static final String USER_ID = "userId";
+    private static final String ADVERT_ID = "advertId";
+
+    private User currentUser;
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            doGet(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -92,57 +97,81 @@ public class HomeServlet extends HttpServlet {
         }
     }
 
-    private void listAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void listAdvert(HttpServletRequest request, HttpServletResponse response) {
 
         if (currentUser == null) {
-            currentUser = userService.findByLogin(request.getParameter("username"));
+            currentUser = userService.findByLogin(request.getParameter(LOGIN));
         }
-        session = request.getSession();
+        HttpSession session = request.getSession();
 
         session.setAttribute("currentUser", currentUser);
 
         request.setAttribute("adverts", advertService.findAll());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
-        dispatcher.forward(request, response);
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void listAdvertUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void listAdvertUser(HttpServletRequest request, HttpServletResponse response) {
 
         if (currentUser == null) {
-            currentUser = userService.findByLogin(request.getParameter("username"));
+            currentUser = userService.findByLogin(request.getParameter(LOGIN));
         }
-        session = request.getSession();
+        HttpSession session = request.getSession();
 
         session.setAttribute("currentUser", currentUser);
 
         request.setAttribute("adverts", advertService.findAll());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-user.jsp");
-        dispatcher.forward(request, response);
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void listUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void listUser(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("users", userService.findAll());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/user-list.jsp");
-        dispatcher.forward(request, response);
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-     //   request.setAttribute("advertGenre", AdvertGenre.values());
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-form.jsp");
-        dispatcher.forward(request, response);
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long id = Long.parseLong(request.getParameter("advertId"));
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) {
+        long id = Long.parseLong(request.getParameter(ADVERT_ID));
         Advert existingAdvert = advertService.findById(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-form.jsp");
         request.setAttribute("advert", existingAdvert);
-        dispatcher.forward(request, response);
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void insertAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        advert = advert.builder()
+    private void insertAdvert(HttpServletRequest request, HttpServletResponse response) {
+        Advert advert = Advert.builder()
                 .title(request.getParameter("title"))
                 .description(request.getParameter("description"))
                 .publishingDate(LocalDate.parse(request.getParameter("publishingDate")))
@@ -151,12 +180,17 @@ public class HomeServlet extends HttpServlet {
                 .author(currentUser)
                 .build();
         advertService.save(advert);
-        response.sendRedirect("/");
+
+        try {
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void updateAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        long advertId = Integer.parseInt(request.getParameter("advertId"));
-        advert = advert.builder().id(advertId)
+    private void updateAdvert(HttpServletRequest request, HttpServletResponse response) {
+        long advertId = Integer.parseInt(request.getParameter(ADVERT_ID));
+        Advert advert = Advert.builder().id(advertId)
                 .title(request.getParameter("title"))
                 .description(request.getParameter("description"))
                 .publishingDate(LocalDate.parse(request.getParameter("publishingDate")))
@@ -165,48 +199,77 @@ public class HomeServlet extends HttpServlet {
                 .build();
 
         advertService.update(advert);
-        response.sendRedirect("/");
+
+        try {
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void deleteAdvert(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        long advertId = Long.parseLong(request.getParameter("advertId"));
+    private void deleteAdvert(HttpServletRequest request, HttpServletResponse response) {
+        long advertId = Long.parseLong(request.getParameter(ADVERT_ID));
         advertService.delete(advertId);
-        response.sendRedirect("/");
+
+        try {
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void infoAdvert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long id = Long.parseLong(request.getParameter("advertId"));
+    private void infoAdvert(HttpServletRequest request, HttpServletResponse response) {
+        long id = Long.parseLong(request.getParameter(ADVERT_ID));
         Advert existingAdvert = advertService.findById(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-info.jsp");
         request.setAttribute("advert", existingAdvert);
-        dispatcher.forward(request, response);
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    private void userRegistration(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void userRegistration(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/registration-form.jsp");
-        dispatcher.forward(request, response);
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void userEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long id = Long.parseLong(request.getParameter("userId"));
+    private void userEditForm(HttpServletRequest request, HttpServletResponse response) {
+        long id = Long.parseLong(request.getParameter(USER_ID));
         User existingUser = userService.findById(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/registration-form.jsp");
         request.setAttribute("user", existingUser);
-        dispatcher.forward(request, response);
 
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void userSignIn(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void userSignIn(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/sign-in-form.jsp");
-        dispatcher.forward(request, response);
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String password = request.getParameter("password");
+    private void addUser(HttpServletRequest request, HttpServletResponse response) {
+        String password = request.getParameter(PASSWORD);
         String hashedPassword = hashPassword(password);
 
-        user = user.builder()
+        User user = User.builder()
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
                 .password(hashedPassword)
@@ -217,52 +280,84 @@ public class HomeServlet extends HttpServlet {
                 .build();
         userService.save(user);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/userlist");
-        rd.forward(request, response);
+
+        try {
+            rd.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        long userId = Integer.parseInt(request.getParameter("userId"));
-          user = user.builder()
+    private void updateUser(HttpServletRequest request, HttpServletResponse response) {
+        long userId = Integer.parseInt(request.getParameter(USER_ID));
+        User user = User.builder()
                 .id(userId)
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
-                .password(request.getParameter("password"))
+                .password(request.getParameter(PASSWORD))
                 .dateOfBirth(LocalDate.parse(request.getParameter("dateOfBirth")))
                 .email(request.getParameter("email"))
                 .userRole(UserRole.getByName(request.getParameter("userRole")))
                 .userStatus(UserStatus.NEWCOMER)
                 .build();
         userService.update(user);
-        response.sendRedirect("userlist");
+
+        try {
+            response.sendRedirect("userlist");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        long userId = Long.parseLong(request.getParameter("userId"));
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response) {
+        long userId = Long.parseLong(request.getParameter(USER_ID));
         userService.delete(userId);
-        response.sendRedirect("userlist");
+
+        try {
+            response.sendRedirect("userlist");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void loginUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void loginUser(HttpServletRequest request, HttpServletResponse response) {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = request.getParameter(LOGIN);
+        String password = request.getParameter(PASSWORD);
 
         if (!checkPassword(password, userService.findByLogin(username).getPassword())) {
             request.setAttribute("ERROR", "Invalid email or password");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/error.jsp");
-            dispatcher.forward(request, response);
+            try {
+                dispatcher.forward(request, response);
+            } catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
         } else if (userService.findByLogin(username).getUserRole() == UserRole.ADMIN) {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/list");
-            rd.forward(request, response);
+            try {
+                rd.forward(request, response);
+            } catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
         } else {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
-            rd.forward(request, response);
+            try {
+                rd.forward(request, response);
+            } catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void logOut(HttpServletRequest request, HttpServletResponse response) {
         currentUser = null;
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
-        rd.forward(request, response);
+
+        try {
+            rd.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }
