@@ -45,8 +45,7 @@ public class AdvertRepositoryImpl implements AdvertRepository {
 
     @Override
     public Advert findById(long id) {
-        String query = new StringBuilder().append("select * from ").append(TABLE_ADVERT_NAME).append(" where ")
-                .append(ADVERT_ID).append("=").append(id).toString();
+        String query = SELECT_FROM + TABLE_ADVERT_NAME + WHERE + ADVERT_ID + "=" + id;
         Advert advert = null;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet rs = statement.executeQuery(query);
@@ -84,8 +83,7 @@ public class AdvertRepositoryImpl implements AdvertRepository {
 
     @Override
     public boolean delete(long id) {
-        String query = new StringBuilder().append("delete from ").append(TABLE_ADVERT_NAME).append(" where ")
-                .append(ADVERT_ID).append(" = ").append(id).toString();
+        String query = "delete from " + TABLE_ADVERT_NAME + WHERE + ADVERT_ID + " = " + id;
         try (Statement statement = config.getConnection().createStatement()) {
             statement.executeUpdate(query);
             return true;
@@ -98,7 +96,7 @@ public class AdvertRepositoryImpl implements AdvertRepository {
     @Override
     public List<Advert> findAll() {
         List<Advert> adverts = new ArrayList<>();
-        String query = new StringBuilder().append("select * from ").append(TABLE_ADVERT_NAME).toString();
+        String query = SELECT_FROM + TABLE_ADVERT_NAME;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {
@@ -110,17 +108,17 @@ public class AdvertRepositoryImpl implements AdvertRepository {
         return adverts;
     }
 
-    private Advert getObject(ResultSet rs) {
+    private Advert getObject(ResultSet result) {
         Advert advert = new Advert();
         try {
-            advert.setId(rs.getInt(ADVERT_ID));
-            advert.setTitle(rs.getString(ADVERT_TITLE));
-            advert.setDescription(rs.getString(ADVERT_DESCRIPTION));
-            advert.setPublishingDate(rs.getDate(ADVERT_PUBLISHING_DATE).toLocalDate());
-            advert.setEndingDate(rs.getDate(ADVERT_ENDING_DATE).toLocalDate());
-            advert.setAdvertGenre(AdvertGenre.valueOf(rs.getString(ADVERT_GENRE)));
+            advert.setId(result.getInt(ADVERT_ID));
+            advert.setTitle(result.getString(ADVERT_TITLE));
+            advert.setDescription(result.getString(ADVERT_DESCRIPTION));
+            advert.setPublishingDate(result.getDate(ADVERT_PUBLISHING_DATE).toLocalDate());
+            advert.setEndingDate(result.getDate(ADVERT_ENDING_DATE).toLocalDate());
+            advert.setAdvertGenre(AdvertGenre.valueOf(result.getString(ADVERT_GENRE)));
             User user = new User();
-            user.setId(rs.getInt("author"));
+            user.setId(result.getInt("author"));
             UserRepositoryImpl userRepository = new UserRepositoryImpl();
             user = userRepository.findById(user.getId());
             advert.setAuthor(user);

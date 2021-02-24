@@ -47,8 +47,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findById(long id) {
-        String query = new StringBuilder().append(SELECT_FROM).append(TABLE_USER_NAME).append(WHERE)
-                .append(USER_ID).append("=").append(id).toString();
+        String query = SELECT_FROM + TABLE_USER_NAME + WHERE + USER_ID + "=" + id;
         User user = null;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet rs = statement.executeQuery(query);
@@ -90,8 +89,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean delete(long id) {
-        String query = new StringBuilder().append("delete from ").append(TABLE_USER_NAME)
-                .append(" where ").append(USER_ID).append(" = ").append(id).toString();
+        String query = "delete from " + TABLE_USER_NAME + WHERE + USER_ID + " = " + id;
         try (Statement statement = config.getConnection().createStatement()) {
             statement.executeUpdate(query);
             return true;
@@ -104,7 +102,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        String query = new StringBuilder().append(SELECT_FROM).append(TABLE_USER_NAME).toString();
+        String query = SELECT_FROM + TABLE_USER_NAME;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {
@@ -118,8 +116,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findByLogin(String login) {
-        String query = new StringBuilder().append(SELECT_FROM).append(TABLE_USER_NAME).append(WHERE)
-                .append(USER_EMAIL).append(" = '").append(login).append("'").toString();
+        String query = SELECT_FROM + TABLE_USER_NAME + WHERE + USER_EMAIL + " = '" + login + "'";
         User user = null;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet rs = statement.executeQuery(query);
@@ -135,9 +132,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<String> findAllEmails() {
         List<String> emails = new ArrayList<>();
-        String query = new StringBuilder().append("select ").append(TABLE_USER_NAME).append(".").append(USER_EMAIL)
-                .append(" from ").append(TABLE_USER_NAME).toString();
-
+        String query = "select " + TABLE_USER_NAME + "." + USER_EMAIL + " from " + TABLE_USER_NAME;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {
