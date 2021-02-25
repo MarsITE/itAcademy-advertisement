@@ -1,6 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Header for users</title>
+</head>
 <head>
     <title>Adverts</title>
     <link rel="stylesheet"
@@ -17,18 +22,18 @@
 
         <ul class="navbar-nav">
             <li><a href="<%=request.getContextPath()%>/"
-                   class="nav-link">Adverts</a></li>
+                   class="navbar-brand">Adverts</a></li>
 
             <c:if test="${sessionScope.currentUser == null}">
                 <li><a style="margin-left: 100px" href="<%=request.getContextPath()%>/registration"
-                       class="nav-link">Registration</a></li>
+                       class="navbar-brand">Registration</a></li>
                 <li><a href="<%=request.getContextPath()%>/signin"
-                       class="nav-link">Sign in</a></li>
+                       class="navbar-brand">Sign in</a></li>
             </c:if>
 
             <c:if test="${sessionScope.currentUser != null}">
                 <li><a style="margin-left: 100px" href=""
-                       class="navbar-brand">${sessionScope.currentUser.firstName} ${sessionScope.currentUser.lastName}</a>
+                       class="nav-link">${sessionScope.currentUser.firstName} ${sessionScope.currentUser.lastName}</a>
                 </li>
                 <li></li>
                 <li><a href="<%=request.getContextPath()%>/logOut"

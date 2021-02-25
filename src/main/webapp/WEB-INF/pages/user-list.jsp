@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User list</title>
+</head>
+
 <body>
 
 <header>
@@ -17,15 +23,16 @@
 
         <br>
         <table class="table table-bordered">
+            <caption hidden> User list</caption>
             <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Date Of Birth</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th id="firstName">First Name</th>
+                <th id="lastName">Last Name</th>
+                <th id="email">Email</th>
+                <th id="dateOfBirth">Date Of Birth</th>
+                <th id="userRole">Role</th>
+                <th id="userStatus">Status</th>
+                <th id="action">Actions</th>
             </tr>
             </thead>
             <tbody>

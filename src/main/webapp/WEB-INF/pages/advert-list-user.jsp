@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Advert list for users</title>
+</head>
 
 <body>
 <header>
@@ -22,15 +27,16 @@
 
                 <br>
                 <table class="table table-bordered">
+                    <caption hidden>List of adverts</caption>
                     <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Publishing date</th>
-                        <th>Ending date</th>
-                        <th>Genre</th>
-                        <th>Author</th>
+                        <th id="title">Title</th>
+                        <th id="publishingDate">Publishing date</th>
+                        <th id="endingDate">Ending date</th>
+                        <th id="genre">Genre</th>
+                        <th id="author">Author</th>
                         <c:if test="${sessionScope.currentUser != null}">
-                            <th>Actions</th>
+                            <th id="action">Actions</th>
                         </c:if>
                     </tr>
                     </thead>

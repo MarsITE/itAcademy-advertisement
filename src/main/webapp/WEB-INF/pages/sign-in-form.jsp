@@ -1,7 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
+<head>
+    <title>Sign in form</title>
+</head>
+
 <body>
 
 <header>
