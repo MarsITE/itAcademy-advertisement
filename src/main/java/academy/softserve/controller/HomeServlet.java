@@ -13,7 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.sql.Date;
 
 import static academy.softserve.controller.util.LoginUtil.*;
 
@@ -174,8 +174,8 @@ public class HomeServlet extends HttpServlet {
         Advert advert = Advert.builder()
                 .title(request.getParameter("title"))
                 .description(request.getParameter("description"))
-                .publishingDate(LocalDate.parse(request.getParameter("publishingDate")))
-                .endingDate(LocalDate.parse(request.getParameter("endingDate")))
+                .publishingDate(convertToEntityAttribute(Date.valueOf(request.getParameter("publishingDate"))))
+                .endingDate(convertToEntityAttribute(Date.valueOf(request.getParameter("endingDate"))))
                 .advertGenre(AdvertGenre.getByName(request.getParameter("advertGenre")))
                 .author(currentUser)
                 .build();
@@ -193,8 +193,8 @@ public class HomeServlet extends HttpServlet {
         Advert advert = Advert.builder().id(advertId)
                 .title(request.getParameter("title"))
                 .description(request.getParameter("description"))
-                .publishingDate(LocalDate.parse(request.getParameter("publishingDate")))
-                .endingDate(LocalDate.parse(request.getParameter("endingDate")))
+                .publishingDate(convertToEntityAttribute(Date.valueOf(request.getParameter("publishingDate"))))
+                .endingDate(convertToEntityAttribute(Date.valueOf(request.getParameter("endingDate"))))
                 .advertGenre(AdvertGenre.getByName(request.getParameter("advertGenre")))
                 .build();
 
@@ -273,7 +273,7 @@ public class HomeServlet extends HttpServlet {
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
                 .password(hashedPassword)
-                .dateOfBirth(LocalDate.parse(request.getParameter("dateOfBirth")))
+                .dateOfBirth(convertToEntityAttribute(Date.valueOf(request.getParameter("dateOfBirth"))))
                 .email(request.getParameter("email"))
                 .userRole(UserRole.USER)
                 .userStatus(UserStatus.NEWCOMER)
@@ -295,7 +295,7 @@ public class HomeServlet extends HttpServlet {
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
                 .password(request.getParameter(PASSWORD))
-                .dateOfBirth(LocalDate.parse(request.getParameter("dateOfBirth")))
+                .dateOfBirth(convertToEntityAttribute(Date.valueOf(request.getParameter("dateOfBirth"))))
                 .email(request.getParameter("email"))
                 .userRole(UserRole.getByName(request.getParameter("userRole")))
                 .userStatus(UserStatus.NEWCOMER)

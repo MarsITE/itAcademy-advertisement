@@ -5,6 +5,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.mindrot.jbcrypt.BCrypt;
 import javax.crypto.SecretKey;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Optional;
 
 public class LoginUtil {
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
@@ -28,6 +31,12 @@ public class LoginUtil {
 
     public static boolean checkPassword(String password, String storedHash) {
         return BCrypt.checkpw(password, storedHash);
+    }
+
+    public static LocalDate convertToEntityAttribute(Date date) {
+        return Optional.ofNullable(date)
+                .map(Date::toLocalDate)
+                .orElse(null);
     }
 
 }

@@ -63,7 +63,7 @@
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>Date Of Birth</label> <input type="text"
+                        <label>Date Of Birth</label> <input type="date"
                                                             value="<c:out value='${user.dateOfBirth}' />"
                                                             class="form-control"
                                                             name="dateOfBirth" required="required">
@@ -79,7 +79,7 @@
                     <c:if test="${user != null}">
 
                         <fieldset class="form-group">
-                            <label>User role</label> <input type="text"
+                            <label>User role</label> <input title="User, Admin, Anonymous" type="text"
                                                             value="<c:out value='${user.userRole.name}' />"
                                                             class="form-control"
                                                             name="userRole" required="required">

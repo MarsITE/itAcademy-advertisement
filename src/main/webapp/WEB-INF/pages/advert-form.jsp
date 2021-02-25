@@ -53,24 +53,25 @@
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>Advert Publishing Date</label> <input type="text"
+                        <label>Advert Publishing Date</label> <input type="date"
                                                                      value="<c:out value='${advert.publishingDate}' />"
                                                                      class="form-control"
                                                                      name="publishingDate" required="required">
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>Advert Ending Date</label> <input type="text"
+                        <label>Advert Ending Date</label> <input type="date"
                                                                  value="<c:out value='${advert.endingDate}' />"
                                                                  class="form-control"
                                                                  name="endingDate" required="required">
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>Advert Genre</label> <input type="text"
+                        <label>Advert Genre</label> <input title="Design, Life, It, Sport" type="text"
                                                            value="<c:out value='${advert.advertGenre.name}' />"
                                                            class="form-control"
-                                                           name="advertGenre" required="required">
+                                                           name="advertGenre"
+                                                           required="required">
                     </fieldset>
 
                     <button type="submit" class="btn btn-success">Save</button>

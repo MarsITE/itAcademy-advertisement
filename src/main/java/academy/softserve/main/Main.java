@@ -17,12 +17,11 @@ import java.time.LocalDate;
 public class Main {
     public static void main(String[] args) {
 
+    //    TablesRepository br = new TablesRepository();
+    //     br.createTables();
+   //      br.dropTables();
 
-        TablesRepository br = new TablesRepository();
-     //    br.createTables();
-        //     br.dropTables();
-
-        User user1 = User.builder().id(1).firstName("Andrii").lastName("Prybyla").password("1234")
+/*        User user1 = User.builder().id(1).firstName("Andrii").lastName("Prybyla").password("1234")
                 .dateOfBirth(LocalDate.of(1985, 8, 6)).email("mars@ukr.net")
                 .userRole(UserRole.USER).userStatus(UserStatus.NEWCOMER).build();
 
@@ -32,10 +31,10 @@ public class Main {
 
         User user3 = User.builder().id(3).firstName("Maria").lastName("Prybyla").password("1234")
                 .dateOfBirth(LocalDate.of(2013, 11, 8)).email("maria@ukr.net")
-                .userRole(UserRole.USER).userStatus(UserStatus.NEWCOMER).build();
+                .userRole(UserRole.USER).userStatus(UserStatus.NEWCOMER).build();*/
 
 
-        UserRepositoryImpl ur = new UserRepositoryImpl();
+ //       UserRepositoryImpl ur = new UserRepositoryImpl();
 /*        ur.save(user1);
         ur.save(user2);
         ur.save(user3);*/
@@ -49,7 +48,7 @@ public class Main {
         //     System.out.println(ur.findById(1));
         //    System.out.println(ur.findAll());
 
-        Advert advert1 = Advert.builder().id(1).title("Advert1").description("Some description")
+/*        Advert advert1 = Advert.builder().id(1).title("Advert1").description("Some description")
                 .publishingDate(LocalDate.of(1990, 1, 1))
                 .endingDate(LocalDate.of(2022, 1, 1))
                 .advertGenre(AdvertGenre.LIFE).author(user1).build();
@@ -60,9 +59,9 @@ public class Main {
         Advert advert3 = Advert.builder().id(3).title("Advert3").description("Some description")
                 .publishingDate(LocalDate.of(1999, 1, 1))
                 .endingDate(LocalDate.of(2022, 1, 1))
-                .advertGenre(AdvertGenre.LIFE).author(user3).build();
+                .advertGenre(AdvertGenre.LIFE).author(user3).build();*/
 
-        AdvertRepositoryImpl ar = new AdvertRepositoryImpl();
+ //       AdvertRepositoryImpl ar = new AdvertRepositoryImpl();
 /*        ar.save(advert1);
         ar.save(advert2);
         ar.save(advert3);*/
@@ -75,8 +74,8 @@ public class Main {
         //     System.out.println(ar.findById(1));
         //     System.out.println(ar.findAll());
 
-        UserService userService = new UserServiceImpl();
-       System.out.println(userService.findByLogin("mars@ukr.net"));
+  //      UserService userService = new UserServiceImpl();
+   //    System.out.println(userService.findByLogin("mars@ukr.net"));
  //       System.out.println(userService.findAll());
 
     }

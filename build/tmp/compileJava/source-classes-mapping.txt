@@ -8,8 +8,8 @@ academy/softserve/service/ValidatorServiceImpl.java
  academy.softserve.service.ValidatorServiceImpl
 academy/softserve/model/library/UserRole.java
  academy.softserve.model.library.UserRole
-academy/softserve/controller/util/LoginUtil.java
- academy.softserve.controller.util.LoginUtil
+academy/softserve/main/Main.java
+ academy.softserve.main.Main
 academy/softserve/configuration/ConnectionConfig.java
  academy.softserve.configuration.ConnectionConfig
 academy/softserve/repository/AdvertRepository.java
@@ -30,11 +30,11 @@ academy/softserve/repository/AdvertRepositoryImpl.java
  academy.softserve.repository.AdvertRepositoryImpl
 academy/softserve/service/UserServiceImpl.java
  academy.softserve.service.UserServiceImpl
-academy/softserve/main/Main.java
- academy.softserve.main.Main
-academy/softserve/controller/HomeServlet.java
- academy.softserve.controller.HomeServlet
-academy/softserve/repository/UserRepositoryImpl.java
- academy.softserve.repository.UserRepositoryImpl
 academy/softserve/service/AdvertServiceImpl.java
  academy.softserve.service.AdvertServiceImpl
+academy/softserve/repository/UserRepositoryImpl.java
+ academy.softserve.repository.UserRepositoryImpl
+academy/softserve/controller/util/LoginUtil.java
+ academy.softserve.controller.util.LoginUtil
+academy/softserve/controller/HomeServlet.java
+ academy.softserve.controller.HomeServlet
