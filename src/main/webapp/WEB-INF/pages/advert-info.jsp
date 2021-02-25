@@ -24,7 +24,9 @@
                 </h5>
             </caption>
 
-            <h6 title="Advert description" class="form-group"><c:out value='${advert.description}'/></h6>
+            <h7 title="Advert description" class="form-group"><c:out value='${advert.description}'/></h7>
+            <br>
+            <br>
 
             <h6 title="Advert duration" class="form-control"><c:out value='from ${advert.publishingDate} to ${advert.endingDate}'/></h6>
 
