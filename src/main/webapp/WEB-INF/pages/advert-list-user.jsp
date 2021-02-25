@@ -51,7 +51,7 @@
                             <td><c:out value="${advert.publishingDate}"/></td>
                             <td><c:out value="${advert.endingDate}"/></td>
                             <td><c:out value="${advert.advertGenre.name}"/></td>
-                            <td><c:out value="${advert.author.email}"/></td>
+                            <td title="${advert.author.email}"><c:out value="${advert.author.firstName} ${advert.author.lastName}"/></td>
 
                             <c:if test="${sessionScope.currentUser != null}">
                                 <td>
