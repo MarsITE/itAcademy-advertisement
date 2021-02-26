@@ -102,7 +102,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        String query = SELECT_FROM + TABLE_USER_NAME;
+        String query = SELECT_FROM + TABLE_USER_NAME  + " order by " + USER_FIRST_NAME + ", " + USER_LAST_NAME;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {

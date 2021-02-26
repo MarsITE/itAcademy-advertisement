@@ -20,17 +20,15 @@ public class ConnectionConfig {
     Properties properties;
 
 
-    private boolean loadProperties(){
+    private void loadProperties(){
         properties = new Properties();
         ClassLoader classLoader = getClass().getClassLoader();
         try (InputStream input = classLoader.getResourceAsStream(path)) {
             if (input != null) {
                 properties.load(input);
             }
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
     }
 

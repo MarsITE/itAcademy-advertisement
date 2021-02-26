@@ -1,8 +1,9 @@
 package academy.softserve.service;
 
 import academy.softserve.model.Advert;
-import academy.softserve.repository.AdvertRepositoryImpl;
+import academy.softserve.model.library.AdvertGenre;
 import academy.softserve.repository.AdvertRepository;
+import academy.softserve.repository.AdvertRepositoryImpl;
 
 import java.util.List;
 
@@ -35,4 +36,13 @@ public class AdvertServiceImpl implements AdvertService {
         return advertRepository.findAll();
     }
 
+    @Override
+    public List<Advert> findByAuthorId(long id) {
+        return advertRepository.findByAuthorId(id);
+    }
+
+    @Override
+    public List<Advert> findByGenre(AdvertGenre genre) {
+        return advertRepository.findByGenre(genre);
+    }
 }

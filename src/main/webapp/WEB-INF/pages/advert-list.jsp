@@ -47,8 +47,15 @@
                                 <c:out value="${advert.title}"/> </a></td>
                             <td><c:out value="${advert.publishingDate}"/></td>
                             <td><c:out value="${advert.endingDate}"/></td>
-                            <td><c:out value="${advert.advertGenre.name}"/></td>
-                            <td title="${advert.author.email}"><c:out value="${advert.author.firstName} ${advert.author.lastName}"/></td>
+
+                            <td><a href="advertGenre?advertGenre=<c:out value='${advert.advertGenre.name}' />">
+                                <c:out value="${advert.advertGenre.name}"/> </a>
+                            </td>
+
+                            <td><a title="${advert.author.email}"
+                                   href="listByAuthor?authorId=<c:out value='${advert.author.id}' />">
+                                <c:out value="${advert.author.firstName} ${advert.author.lastName}"/> </a>
+                            </td>
                             <td>
                                 <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
 

@@ -1,6 +1,7 @@
 package academy.softserve.service;
 
 import academy.softserve.model.Advert;
+import academy.softserve.model.library.AdvertGenre;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface AdvertService {
 
     List<Advert> findAll();
 
+    List<Advert> findByAuthorId(long id);
+
+    List<Advert> findByGenre(AdvertGenre genre);
 }

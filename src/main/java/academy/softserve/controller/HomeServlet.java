@@ -1,5 +1,6 @@
 package academy.softserve.controller;
 
+import academy.softserve.configuration.tables.TablesRepository;
 import academy.softserve.model.Advert;
 import academy.softserve.model.User;
 import academy.softserve.model.library.AdvertGenre;
@@ -7,21 +8,20 @@ import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
 import academy.softserve.service.AdvertServiceImpl;
 import academy.softserve.service.UserServiceImpl;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.Date;
 
-import static academy.softserve.controller.util.LoginUtil.*;
+import static academy.softserve.controller.util.ServletUtil.*;
 
 @WebServlet(urlPatterns = "/")
 public class HomeServlet extends HttpServlet {
 
     private final AdvertServiceImpl advertService = new AdvertServiceImpl();
     private final UserServiceImpl userService = new UserServiceImpl();
+    private final TablesRepository tablesRepository = new TablesRepository();
 
     private static final String LOGIN = "username";
     private static final String PASSWORD = "password";
@@ -29,6 +29,11 @@ public class HomeServlet extends HttpServlet {
     private static final String ADVERT_ID = "advertId";
 
     private User currentUser;
+
+    @Override
+    public void init(){
+        tablesRepository.createTables();
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
@@ -91,6 +96,18 @@ public class HomeServlet extends HttpServlet {
             case "/list":
                 listAdvert(request, response);
                 break;
+            case "/listByAuthor":
+                listAdvertByAuthorId(request, response);
+                break;
+            case "/listByAuthorUser":
+                listAdvertByAuthorIdUser(request, response);
+                break;
+            case "/advertGenre":
+                listAdvertByGenre(request, response);
+                break;
+            case "/advertGenreUser":
+                listAdvertByGenreUser(request, response);
+                break;
             default:
                 listAdvertUser(request, response);
                 break;
@@ -107,7 +124,68 @@ public class HomeServlet extends HttpServlet {
         session.setAttribute("currentUser", currentUser);
 
         request.setAttribute("adverts", advertService.findAll());
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void listAdvertByAuthorId(HttpServletRequest request, HttpServletResponse response) {
+
+        long authorId = Long.parseLong(request.getParameter("authorId"));
+
+        request.setAttribute("advertsById", advertService.findByAuthorId(authorId));
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-byAuthor.jsp");
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void listAdvertByAuthorIdUser(HttpServletRequest request, HttpServletResponse response) {
+
+        long authorId = Long.parseLong(request.getParameter("authorId"));
+
+        request.setAttribute("advertsById", advertService.findByAuthorId(authorId));
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-byAuthor-user.jsp");
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void listAdvertByGenre(HttpServletRequest request, HttpServletResponse response) {
+
+        AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter("advertGenre"));
+
+        request.setAttribute("advertsByGenre", advertService.findByGenre(advertGenre));
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-byGenre.jsp");
+
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void listAdvertByGenreUser(HttpServletRequest request, HttpServletResponse response) {
+
+        AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter("advertGenre"));
+
+        request.setAttribute("advertsByGenre", advertService.findByGenre(advertGenre));
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-byGenre-user.jsp");
 
         try {
             dispatcher.forward(request, response);
@@ -174,8 +252,8 @@ public class HomeServlet extends HttpServlet {
         Advert advert = Advert.builder()
                 .title(request.getParameter("title"))
                 .description(request.getParameter("description"))
-                .publishingDate(convertToEntityAttribute(Date.valueOf(request.getParameter("publishingDate"))))
-                .endingDate(convertToEntityAttribute(Date.valueOf(request.getParameter("endingDate"))))
+                .publishingDate(convertSqlDateToLocalDate(request.getParameter("publishingDate")))
+                .endingDate(convertSqlDateToLocalDate(request.getParameter("endingDate")))
                 .advertGenre(AdvertGenre.getByName(request.getParameter("advertGenre")))
                 .author(currentUser)
                 .build();
@@ -193,8 +271,8 @@ public class HomeServlet extends HttpServlet {
         Advert advert = Advert.builder().id(advertId)
                 .title(request.getParameter("title"))
                 .description(request.getParameter("description"))
-                .publishingDate(convertToEntityAttribute(Date.valueOf(request.getParameter("publishingDate"))))
-                .endingDate(convertToEntityAttribute(Date.valueOf(request.getParameter("endingDate"))))
+                .publishingDate(convertSqlDateToLocalDate(request.getParameter("publishingDate")))
+                .endingDate(convertSqlDateToLocalDate(request.getParameter("endingDate")))
                 .advertGenre(AdvertGenre.getByName(request.getParameter("advertGenre")))
                 .build();
 
@@ -273,7 +351,7 @@ public class HomeServlet extends HttpServlet {
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
                 .password(hashedPassword)
-                .dateOfBirth(convertToEntityAttribute(Date.valueOf(request.getParameter("dateOfBirth"))))
+                .dateOfBirth(convertSqlDateToLocalDate(request.getParameter("dateOfBirth")))
                 .email(request.getParameter("email"))
                 .userRole(UserRole.USER)
                 .userStatus(UserStatus.NEWCOMER)
@@ -295,7 +373,7 @@ public class HomeServlet extends HttpServlet {
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
                 .password(request.getParameter(PASSWORD))
-                .dateOfBirth(convertToEntityAttribute(Date.valueOf(request.getParameter("dateOfBirth"))))
+                .dateOfBirth(convertSqlDateToLocalDate(request.getParameter("dateOfBirth")))
                 .email(request.getParameter("email"))
                 .userRole(UserRole.getByName(request.getParameter("userRole")))
                 .userStatus(UserStatus.NEWCOMER)

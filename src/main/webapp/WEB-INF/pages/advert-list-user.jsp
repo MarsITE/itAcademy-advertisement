@@ -50,8 +50,13 @@
                                 <c:out value="${advert.title}"/> </a></td>
                             <td><c:out value="${advert.publishingDate}"/></td>
                             <td><c:out value="${advert.endingDate}"/></td>
-                            <td><c:out value="${advert.advertGenre.name}"/></td>
-                            <td title="${advert.author.email}"><c:out value="${advert.author.firstName} ${advert.author.lastName}"/></td>
+                            <td><a href="advertGenreUser?advertGenre=<c:out value='${advert.advertGenre.name}' />">
+                                <c:out value="${advert.advertGenre.name}"/> </a>
+                            </td>
+                            <td><a title="${advert.author.email}"
+                                   href="listByAuthorUser?authorId=<c:out value='${advert.author.id}' />">
+                                <c:out value="${advert.author.firstName} ${advert.author.lastName}"/> </a>
+                            </td>
 
                             <c:if test="${sessionScope.currentUser != null}">
                                 <td>

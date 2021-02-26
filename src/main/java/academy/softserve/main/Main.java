@@ -61,7 +61,7 @@ public class Main {
                 .endingDate(LocalDate.of(2022, 1, 1))
                 .advertGenre(AdvertGenre.LIFE).author(user3).build();*/
 
- //       AdvertRepositoryImpl ar = new AdvertRepositoryImpl();
+        AdvertRepositoryImpl ar = new AdvertRepositoryImpl();
 /*        ar.save(advert1);
         ar.save(advert2);
         ar.save(advert3);*/
@@ -77,6 +77,8 @@ public class Main {
   //      UserService userService = new UserServiceImpl();
    //    System.out.println(userService.findByLogin("mars@ukr.net"));
  //       System.out.println(userService.findAll());
+
+        System.out.println(ar.findByGenre(AdvertGenre.DESIGN));
 
     }
 }
