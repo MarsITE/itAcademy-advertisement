@@ -1,11 +1,15 @@
 package academy.softserve.configuration.tables;
 
 import academy.softserve.configuration.ConnectionConfig;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TablesRepository {
+    private final static Logger logger = LogManager.getLogger(TablesRepository.class);
+
     public static final String TABLE_USER_NAME = "Users";
     public static final String USER_ID = "id";
     public static final String USER_FIRST_NAME = "firstName";
@@ -56,8 +60,8 @@ public class TablesRepository {
             statement.execute(query1);
             statement.execute(query2);
             return true;
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
             return false;
         }
     }
@@ -69,8 +73,8 @@ public class TablesRepository {
             statement.execute(query1);
             statement.execute(query2);
             return true;
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
             return false;
         }
     }

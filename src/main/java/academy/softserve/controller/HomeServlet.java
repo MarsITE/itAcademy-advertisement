@@ -8,6 +8,9 @@ import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
 import academy.softserve.service.AdvertServiceImpl;
 import academy.softserve.service.UserServiceImpl;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +21,7 @@ import static academy.softserve.controller.util.ServletUtil.*;
 
 @WebServlet(urlPatterns = "/")
 public class HomeServlet extends HttpServlet {
+    private final static Logger logger = LogManager.getLogger(HomeServlet.class);
 
     private final AdvertServiceImpl advertService = new AdvertServiceImpl();
     private final UserServiceImpl userService = new UserServiceImpl();
@@ -40,7 +44,7 @@ public class HomeServlet extends HttpServlet {
         try {
             doGet(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -130,7 +134,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -145,7 +149,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -160,7 +164,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -175,7 +179,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -190,7 +194,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -209,7 +213,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -220,7 +224,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -230,7 +234,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -243,7 +247,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }
@@ -262,7 +266,7 @@ public class HomeServlet extends HttpServlet {
         try {
             response.sendRedirect("/");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -281,7 +285,7 @@ public class HomeServlet extends HttpServlet {
         try {
             response.sendRedirect("/");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -292,7 +296,7 @@ public class HomeServlet extends HttpServlet {
         try {
             response.sendRedirect("/");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -305,7 +309,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -316,7 +320,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -329,7 +333,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -339,7 +343,7 @@ public class HomeServlet extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -362,7 +366,7 @@ public class HomeServlet extends HttpServlet {
         try {
             rd.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -383,7 +387,7 @@ public class HomeServlet extends HttpServlet {
         try {
             response.sendRedirect("userlist");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -394,7 +398,7 @@ public class HomeServlet extends HttpServlet {
         try {
             response.sendRedirect("userlist");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -409,21 +413,21 @@ public class HomeServlet extends HttpServlet {
             try {
                 dispatcher.forward(request, response);
             } catch (ServletException | IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         } else if (userService.findByLogin(username).getUserRole() == UserRole.ADMIN) {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/list");
             try {
                 rd.forward(request, response);
             } catch (ServletException | IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         } else {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
             try {
                 rd.forward(request, response);
             } catch (ServletException | IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
     }
@@ -435,7 +439,7 @@ public class HomeServlet extends HttpServlet {
         try {
             rd.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 }

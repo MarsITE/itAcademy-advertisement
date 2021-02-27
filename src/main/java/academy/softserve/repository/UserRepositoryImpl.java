@@ -4,6 +4,8 @@ import academy.softserve.configuration.ConnectionConfig;
 import academy.softserve.model.User;
 import academy.softserve.model.library.UserRole;
 import academy.softserve.model.library.UserStatus;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.List;
 import static academy.softserve.configuration.tables.TablesRepository.*;
 
 public class UserRepositoryImpl implements UserRepository {
+    private final Logger logger = LogManager.getLogger(UserRepositoryImpl.class);
 
     ConnectionConfig config = new ConnectionConfig("db.properties");
 
@@ -39,8 +42,8 @@ public class UserRepositoryImpl implements UserRepository {
             while (rs.next()) {
                 user.setId(rs.getInt(1));
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return user;
     }
@@ -54,8 +57,8 @@ public class UserRepositoryImpl implements UserRepository {
             while (rs.next()) {
                 user = getObject(rs);
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return user;
     }
@@ -81,8 +84,8 @@ public class UserRepositoryImpl implements UserRepository {
             ps.setString(7, String.valueOf(user.getUserStatus()));
             ps.setLong(8, user.getId());
             ps.executeUpdate();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return user;
     }
@@ -93,8 +96,8 @@ public class UserRepositoryImpl implements UserRepository {
         try (Statement statement = config.getConnection().createStatement()) {
             statement.executeUpdate(query);
             return true;
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
             return false;
         }
     }
@@ -108,8 +111,8 @@ public class UserRepositoryImpl implements UserRepository {
             while (result.next()) {
                 users.add(getObject(result));
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return users;
     }
@@ -123,8 +126,8 @@ public class UserRepositoryImpl implements UserRepository {
             while (rs.next()) {
                 user = getObject(rs);
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return user;
     }
@@ -138,8 +141,8 @@ public class UserRepositoryImpl implements UserRepository {
             while (result.next()) {
                 emails.add(result.getString("email"));
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return emails;
     }
@@ -155,8 +158,8 @@ public class UserRepositoryImpl implements UserRepository {
             user.setEmail(rs.getString(USER_EMAIL));
             user.setUserRole(UserRole.valueOf(rs.getString(USER_ROLE)));
             user.setUserStatus(UserStatus.valueOf(rs.getString(USER_STATUS)));
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return user;
     }

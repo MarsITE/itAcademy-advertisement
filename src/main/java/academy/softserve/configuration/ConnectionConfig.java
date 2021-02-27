@@ -1,5 +1,7 @@
 package academy.softserve.configuration;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.postgresql.Driver;
 
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionConfig {
+    private final static Logger logger = LogManager.getLogger(ConnectionConfig.class);
 
     private String path;
 
@@ -28,7 +31,7 @@ public class ConnectionConfig {
                 properties.load(input);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 

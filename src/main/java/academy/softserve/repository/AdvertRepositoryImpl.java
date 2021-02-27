@@ -4,15 +4,17 @@ import academy.softserve.configuration.ConnectionConfig;
 import academy.softserve.model.Advert;
 import academy.softserve.model.User;
 import academy.softserve.model.library.AdvertGenre;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static academy.softserve.configuration.tables.TablesRepository.*;
-import static academy.softserve.model.library.AdvertGenre.DESIGN;
 
 public class AdvertRepositoryImpl implements AdvertRepository {
+    private final Logger logger = LogManager.getLogger(AdvertRepositoryImpl.class);
 
     ConnectionConfig config = new ConnectionConfig("db.properties");
 
@@ -38,8 +40,8 @@ public class AdvertRepositoryImpl implements AdvertRepository {
                 advert.setId(rs.getInt(1));
             }
             rs.close();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return advert;
     }
@@ -53,8 +55,8 @@ public class AdvertRepositoryImpl implements AdvertRepository {
             while (rs.next()) {
                 advert = getObject(rs);
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return advert;
     }
@@ -76,8 +78,8 @@ public class AdvertRepositoryImpl implements AdvertRepository {
             ps.setString(5, String.valueOf(advert.getAdvertGenre()));
             ps.setLong(6, advert.getId());
             ps.executeUpdate();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return advert;
     }
@@ -88,8 +90,8 @@ public class AdvertRepositoryImpl implements AdvertRepository {
         try (Statement statement = config.getConnection().createStatement()) {
             statement.executeUpdate(query);
             return true;
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
             return false;
         }
     }
@@ -103,8 +105,8 @@ public class AdvertRepositoryImpl implements AdvertRepository {
             while (result.next()) {
                 adverts.add(getObject(result));
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return adverts;
     }
@@ -118,8 +120,8 @@ public class AdvertRepositoryImpl implements AdvertRepository {
             while (result.next()) {
                 adverts.add(getObject(result));
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return adverts;
     }
@@ -127,14 +129,15 @@ public class AdvertRepositoryImpl implements AdvertRepository {
     @Override
     public List<Advert> findByGenre(AdvertGenre advertGenre) {
         List<Advert> adverts = new ArrayList<>();
-        String query = SELECT_FROM + TABLE_ADVERT_NAME + WHERE + ADVERT_GENRE + "='" + advertGenre + "'" + " order by " + ADVERT_PUBLISHING_DATE + " desc, " + ADVERT_TITLE;;
+        String query = SELECT_FROM + TABLE_ADVERT_NAME + WHERE + ADVERT_GENRE + "='" + advertGenre + "'" + " order by " + ADVERT_PUBLISHING_DATE + " desc, " + ADVERT_TITLE;
+
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {
                 adverts.add(getObject(result));
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return adverts;
     }
@@ -153,8 +156,8 @@ public class AdvertRepositoryImpl implements AdvertRepository {
             UserRepositoryImpl userRepository = new UserRepositoryImpl();
             user = userRepository.findById(user.getId());
             advert.setAuthor(user);
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return advert;
     }
