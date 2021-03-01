@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionConfig {
-    private final Logger logger = LogManager.getLogger(ConnectionConfig.class);
+    private final static Logger logger = LogManager.getLogger(ConnectionConfig.class);
 
     private String path;
 

@@ -7,7 +7,7 @@ import javax.validation.*;
 import java.util.Set;
 
 public class ValidatorServiceImpl<E> {
-    private final Logger logger = LogManager.getLogger(ValidatorServiceImpl.class);
+    private final static Logger logger = LogManager.getLogger(ValidatorServiceImpl.class);
 
     public void validate(E e) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

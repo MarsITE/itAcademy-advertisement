@@ -21,7 +21,7 @@ import static academy.softserve.controller.util.ServletUtil.*;
 
 @WebServlet(urlPatterns = "/")
 public class HomeServlet extends HttpServlet {
-    private final Logger logger = LogManager.getLogger(HomeServlet.class);
+    private final static Logger logger = LogManager.getLogger(HomeServlet.class);
 
     private final AdvertServiceImpl advertService = new AdvertServiceImpl();
     private final UserServiceImpl userService = new UserServiceImpl();
@@ -36,7 +36,7 @@ public class HomeServlet extends HttpServlet {
     private User currentUser;
 
     @Override
-    public void init(){
+    public void init() {
         tablesRepository.createTables();
     }
 
@@ -128,6 +128,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("list of adverts");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -143,6 +144,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("filter by author id");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -158,6 +160,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("filter by genre");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -170,6 +173,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("user list");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -180,6 +184,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("register form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -193,6 +198,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("edit form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -212,6 +218,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("/");
+            logger.info("add advert");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -231,6 +238,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("/");
+            logger.info("update advert");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -242,6 +250,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("/");
+            logger.info("delete advert");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -255,6 +264,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("advert info");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -266,6 +276,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("user registration form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -279,6 +290,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("user edition form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -289,6 +301,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
+            logger.info("user sign in");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -312,6 +325,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             rd.forward(request, response);
+            logger.info("add user");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -333,6 +347,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("userlist");
+            logger.info("update user");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -344,6 +359,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("userlist");
+            logger.info("delete user");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -359,13 +375,7 @@ public class HomeServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/error.jsp");
             try {
                 dispatcher.forward(request, response);
-            } catch (ServletException | IOException e) {
-                logger.error(e.getMessage());
-            }
-        } else if (userService.findByLogin(username).getUserRole() == UserRole.ADMIN) {
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/list");
-            try {
-                rd.forward(request, response);
+                logger.error("Invalid email or password");
             } catch (ServletException | IOException e) {
                 logger.error(e.getMessage());
             }
@@ -373,6 +383,7 @@ public class HomeServlet extends HttpServlet {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
             try {
                 rd.forward(request, response);
+                logger.info("log in");
             } catch (ServletException | IOException e) {
                 logger.error(e.getMessage());
             }
@@ -385,6 +396,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             rd.forward(request, response);
+            logger.info("log out");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
