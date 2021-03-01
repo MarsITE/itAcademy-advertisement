@@ -104,17 +104,11 @@ public class HomeServlet extends HttpServlet {
             case "/listByAuthor":
                 listAdvertByAuthorId(request, response);
                 break;
-            case "/listByAuthorUser":
-                listAdvertByAuthorIdUser(request, response);
-                break;
             case "/advertGenre":
                 listAdvertByGenre(request, response);
                 break;
-            case "/advertGenreUser":
-                listAdvertByGenreUser(request, response);
-                break;
             default:
-                listAdvertUser(request, response);
+                listAdvert(request, response);
                 break;
         }
     }
@@ -143,24 +137,9 @@ public class HomeServlet extends HttpServlet {
 
         long authorId = Long.parseLong(request.getParameter("authorId"));
 
-        request.setAttribute("advertsById", advertService.findByAuthorId(authorId));
+        request.setAttribute("adverts", advertService.findByAuthorId(authorId));
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-byAuthor.jsp");
-
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException | IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    private void listAdvertByAuthorIdUser(HttpServletRequest request, HttpServletResponse response) {
-
-        long authorId = Long.parseLong(request.getParameter("authorId"));
-
-        request.setAttribute("advertsById", advertService.findByAuthorId(authorId));
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-byAuthor-user.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
 
         try {
             dispatcher.forward(request, response);
@@ -173,43 +152,9 @@ public class HomeServlet extends HttpServlet {
 
         AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter(ADVERT_GENRE));
 
-        request.setAttribute("advertsByGenre", advertService.findByGenre(advertGenre));
+        request.setAttribute("adverts", advertService.findByGenre(advertGenre));
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-byGenre.jsp");
-
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException | IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    private void listAdvertByGenreUser(HttpServletRequest request, HttpServletResponse response) {
-
-        AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter(ADVERT_GENRE));
-
-        request.setAttribute("advertsByGenre", advertService.findByGenre(advertGenre));
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-byGenre-user.jsp");
-
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException | IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    private void listAdvertUser(HttpServletRequest request, HttpServletResponse response) {
-
-        if (currentUser == null) {
-            currentUser = userService.findByLogin(request.getParameter(LOGIN));
-        }
-        HttpSession session = request.getSession();
-
-        session.setAttribute("currentUser", currentUser);
-
-        request.setAttribute("adverts", advertService.findAll());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list-user.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
 
         try {
             dispatcher.forward(request, response);
@@ -220,6 +165,7 @@ public class HomeServlet extends HttpServlet {
 
     private void listUser(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("users", userService.findAll());
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/user-list.jsp");
 
         try {

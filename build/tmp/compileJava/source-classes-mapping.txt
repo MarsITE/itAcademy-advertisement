@@ -25,8 +25,8 @@ academy/softserve/model/Advert.java
  academy.softserve.model.Advert$AdvertBuilder
 academy/softserve/model/library/UserStatus.java
  academy.softserve.model.library.UserStatus
-academy/softserve/controller/HomeServlet.java
- academy.softserve.controller.HomeServlet
+academy/softserve/model/library/AdvertGenre.java
+ academy.softserve.model.library.AdvertGenre
 academy/softserve/repository/AdvertRepository.java
  academy.softserve.repository.AdvertRepository
 academy/softserve/repository/UserRepositoryImpl.java
@@ -36,5 +36,5 @@ academy/softserve/service/AdvertServiceImpl.java
 academy/softserve/model/User.java
  academy.softserve.model.User
  academy.softserve.model.User$UserBuilder
-academy/softserve/model/library/AdvertGenre.java
- academy.softserve.model.library.AdvertGenre
+academy/softserve/controller/HomeServlet.java
+ academy.softserve.controller.HomeServlet
