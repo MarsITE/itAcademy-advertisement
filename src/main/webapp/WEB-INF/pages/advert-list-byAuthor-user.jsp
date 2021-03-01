@@ -20,7 +20,9 @@
         <h3 class="text-center">List of Adverts</h3>
         <hr>
         <div class="container text-left">
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add New Advert</a>
+            <c:if test="${sessionScope.currentUser != null}">
+                <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add New Advert</a>
+            </c:if>
             <div class="container text-left">
 
                 <br>

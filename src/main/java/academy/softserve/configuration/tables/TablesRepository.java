@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TablesRepository {
-    private final static Logger logger = LogManager.getLogger(TablesRepository.class);
+    private final Logger logger = LogManager.getLogger(TablesRepository.class);
 
     public static final String TABLE_USER_NAME = "Users";
     public static final String USER_ID = "id";
@@ -34,6 +34,8 @@ public class TablesRepository {
     public static final String CREATE_TABLE = "create table if not exists ";
     public static final String SELECT_FROM = "select * from ";
     public static final String WHERE = " where ";
+    public static final String ORDER = " order by ";
+    public static final String DESC = " desc, ";
 
     ConnectionConfig config = new ConnectionConfig("db.properties");
 

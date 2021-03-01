@@ -21,7 +21,7 @@ import static academy.softserve.controller.util.ServletUtil.*;
 
 @WebServlet(urlPatterns = "/")
 public class HomeServlet extends HttpServlet {
-    private final static Logger logger = LogManager.getLogger(HomeServlet.class);
+    private final Logger logger = LogManager.getLogger(HomeServlet.class);
 
     private final AdvertServiceImpl advertService = new AdvertServiceImpl();
     private final UserServiceImpl userService = new UserServiceImpl();
@@ -31,6 +31,7 @@ public class HomeServlet extends HttpServlet {
     private static final String PASSWORD = "password";
     private static final String USER_ID = "userId";
     private static final String ADVERT_ID = "advertId";
+    private static final String ADVERT_GENRE = "advertGenre";
 
     private User currentUser;
 
@@ -170,7 +171,7 @@ public class HomeServlet extends HttpServlet {
 
     private void listAdvertByGenre(HttpServletRequest request, HttpServletResponse response) {
 
-        AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter("advertGenre"));
+        AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter(ADVERT_GENRE));
 
         request.setAttribute("advertsByGenre", advertService.findByGenre(advertGenre));
 
@@ -185,7 +186,7 @@ public class HomeServlet extends HttpServlet {
 
     private void listAdvertByGenreUser(HttpServletRequest request, HttpServletResponse response) {
 
-        AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter("advertGenre"));
+        AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter(ADVERT_GENRE));
 
         request.setAttribute("advertsByGenre", advertService.findByGenre(advertGenre));
 
@@ -258,7 +259,7 @@ public class HomeServlet extends HttpServlet {
                 .description(request.getParameter("description"))
                 .publishingDate(convertSqlDateToLocalDate(request.getParameter("publishingDate")))
                 .endingDate(convertSqlDateToLocalDate(request.getParameter("endingDate")))
-                .advertGenre(AdvertGenre.getByName(request.getParameter("advertGenre")))
+                .advertGenre(AdvertGenre.getByName(request.getParameter(ADVERT_GENRE)))
                 .author(currentUser)
                 .build();
         advertService.save(advert);
@@ -277,7 +278,7 @@ public class HomeServlet extends HttpServlet {
                 .description(request.getParameter("description"))
                 .publishingDate(convertSqlDateToLocalDate(request.getParameter("publishingDate")))
                 .endingDate(convertSqlDateToLocalDate(request.getParameter("endingDate")))
-                .advertGenre(AdvertGenre.getByName(request.getParameter("advertGenre")))
+                .advertGenre(AdvertGenre.getByName(request.getParameter(ADVERT_GENRE)))
                 .build();
 
         advertService.update(advert);
