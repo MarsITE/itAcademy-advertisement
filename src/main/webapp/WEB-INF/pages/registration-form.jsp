@@ -11,7 +11,8 @@
 <body>
 
 <header>
-    <jsp:include page="header-user.jsp"/>
+    <jsp:include page="header.jsp"/>
+
     <br>
 </header>
 
@@ -41,6 +42,7 @@
                         <input type="hidden" name="userId" value="<c:out value='${user.id}' />"/>
                     </c:if>
 
+
                     <fieldset class="form-group">
                         <label>First Name</label> <input type="text"
                                                          value="<c:out value='${user.firstName}' />"
@@ -56,7 +58,7 @@
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>Password</label> <input type="text"
+                        <label>Password</label> <input type="password"
                                                        value="<c:out value='${user.password}' />"
                                                        class="form-control"
                                                        name="password" required="required">
@@ -77,16 +79,13 @@
                     </fieldset>
 
                     <c:if test="${user != null}">
-
                         <fieldset class="form-group">
                             <label>User role</label> <input title="User, Admin, Anonymous" type="text"
                                                             value="<c:out value='${user.userRole.name}' />"
                                                             class="form-control"
                                                             name="userRole" required="required">
                         </fieldset>
-
                     </c:if>
-
 
                     <button type="submit" class="btn btn-success">Save</button>
                 </form>

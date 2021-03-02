@@ -9,12 +9,7 @@
 </head>
 
 <header>
-    <c:if test="${sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
         <jsp:include page="header.jsp"/>
-    </c:if>
-    <c:if test="${!sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-        <jsp:include page="header-user.jsp"/>
-    </c:if>
     <br>
 </header>
 <body>

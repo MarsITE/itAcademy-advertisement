@@ -11,12 +11,7 @@
 <body>
 
 <header>
-    <c:if test="${sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-        <jsp:include page="header.jsp"/>
-    </c:if>
-    <c:if test="${!sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-        <jsp:include page="header-user.jsp"/>
-    </c:if>
+    <jsp:include page="header.jsp"/>
     <br>
 </header>
 
@@ -37,7 +32,9 @@
                 <th id="dateOfBirth">Date Of Birth</th>
                 <th id="userRole">Role</th>
                 <th id="userStatus">Status</th>
-                <th id="action">Actions</th>
+                <c:if test="${sessionScope.currentUser != null}">
+                    <th id="action">Actions</th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
@@ -51,11 +48,28 @@
                     <td><c:out value="${user.dateOfBirth}"/></td>
                     <td><c:out value="${user.userRole.name}"/></td>
                     <td><c:out value="${user.userStatus.name}"/></td>
+
+                    <c:if test="${sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
                     <td>
                         <a href="editUser?userId=<c:out value='${user.id}' />"> Edit </a>
 
-                        <a style="margin-left: 20px" href="deleteUser?userId=<c:out value='${user.id}' />"> Delete </a>
+                        <a style="margin-left: 20px" href="deleteUser?userId=<c:out value='${user.id}' />">
+                            Delete </a>
                     </td>
+                    </c:if>
+
+                    <c:if test="${!sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
+                        <c:if test="${sessionScope.currentUser != null}">
+                            <td>
+                            <c:if test="${sessionScope.currentUser.id == user.id}">
+                                <a href="editUser?userId=<c:out value='${user.id}' />"> Edit </a>
+
+                                <a style="margin-left: 20px" href="deleteUser?userId=<c:out value='${user.id}' />">
+                                    Delete </a>
+                                </td>
+                            </c:if>
+                        </c:if>
+                    </c:if>
                 </tr>
             </c:forEach>
             </tbody>

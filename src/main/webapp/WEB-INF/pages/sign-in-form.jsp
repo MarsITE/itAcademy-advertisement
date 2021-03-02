@@ -9,7 +9,7 @@
 <body>
 
 <header>
-    <jsp:include page="header-user.jsp"/>
+    <jsp:include page="header.jsp"/>
     <br>
 </header>
 

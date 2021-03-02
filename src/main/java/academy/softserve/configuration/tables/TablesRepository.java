@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TablesRepository {
-    private final static Logger logger = LogManager.getLogger(TablesRepository.class);
+    private final Logger logger = LogManager.getLogger(TablesRepository.class);
 
     public static final String TABLE_USER_NAME = "Users";
     public static final String USER_ID = "id";
@@ -61,7 +61,7 @@ public class TablesRepository {
                     TABLE_USER_NAME + ");";
             statement.execute(query1);
             statement.execute(query2);
-            logger.info("Create tables Users and Adverts");
+            logger.info("Create tables Users and Adverts (if not exists)");
             return true;
         } catch (SQLException e) {
             logger.error(e.getMessage());

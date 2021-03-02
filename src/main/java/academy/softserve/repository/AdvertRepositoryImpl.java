@@ -14,7 +14,7 @@ import java.util.List;
 import static academy.softserve.configuration.tables.TablesRepository.*;
 
 public class AdvertRepositoryImpl implements AdvertRepository {
-    private final static Logger logger = LogManager.getLogger(AdvertRepositoryImpl.class);
+    private final Logger logger = LogManager.getLogger(AdvertRepositoryImpl.class);
 
     ConnectionConfig config = new ConnectionConfig("db.properties");
 

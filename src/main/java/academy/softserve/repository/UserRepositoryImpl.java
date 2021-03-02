@@ -14,7 +14,7 @@ import java.util.List;
 import static academy.softserve.configuration.tables.TablesRepository.*;
 
 public class UserRepositoryImpl implements UserRepository {
-    private final static Logger logger = LogManager.getLogger(UserRepositoryImpl.class);
+    private final Logger logger = LogManager.getLogger(UserRepositoryImpl.class);
 
     ConnectionConfig config = new ConnectionConfig("db.properties");
 

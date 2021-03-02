@@ -1,4 +1,3 @@
-<%@ page import="academy.softserve.model.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -11,12 +10,7 @@
 
 <body>
 <header>
-    <c:if test="${sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-        <jsp:include page="header.jsp"/>
-    </c:if>
-    <c:if test="${!sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-        <jsp:include page="header-user.jsp"/>
-    </c:if>
+    <jsp:include page="header.jsp"/>
     <br>
 </header>
 
@@ -67,11 +61,11 @@
 
                             <c:if test="${sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
                                 <td>
-                                <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
+                                    <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
 
-                                <a style="margin-left: 20px"
-                                   href="delete?advertId=<c:out value='${advert.id}' />">
-                                    Delete </a>
+                                    <a style="margin-left: 20px"
+                                       href="delete?advertId=<c:out value='${advert.id}' />">
+                                        Delete </a>
                                 </td>
                             </c:if>
 

@@ -22,8 +22,11 @@
         <ul class="navbar-nav">
             <li><a href="<%=request.getContextPath()%>/list"
                    class="navbar-brand">Adverts</a></li>
-            <li><a href="<%=request.getContextPath()%>/userlist"
-                   class="navbar-brand">Users</a></li>
+            <c:if test="${sessionScope.currentUser != null}">
+                <li><a href="<%=request.getContextPath()%>/userlist"
+                       class="navbar-brand">Users</a></li>
+            </c:if>
+
 
             <c:if test="${sessionScope.currentUser == null}">
                 <li><a style="margin-left: 100px" href="<%=request.getContextPath()%>/registration"

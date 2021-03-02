@@ -17,11 +17,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-import static academy.softserve.controller.util.ServletUtil.*;
+import static academy.softserve.controller.util.Util.*;
 
 @WebServlet(urlPatterns = "/")
 public class HomeServlet extends HttpServlet {
-    private final static Logger logger = LogManager.getLogger(HomeServlet.class);
+    private final Logger logger = LogManager.getLogger(HomeServlet.class);
 
     private final AdvertServiceImpl advertService = new AdvertServiceImpl();
     private final UserServiceImpl userService = new UserServiceImpl();
@@ -32,6 +32,9 @@ public class HomeServlet extends HttpServlet {
     private static final String USER_ID = "userId";
     private static final String ADVERT_ID = "advertId";
     private static final String ADVERT_GENRE = "advertGenre";
+    private static final String ADVERTS = "adverts";
+    private static final String ADVERTS_ROOT = "/WEB-INF/pages/advert-list.jsp";
+    private static final String EMAIL = "email";
 
     private User currentUser;
 
@@ -122,13 +125,13 @@ public class HomeServlet extends HttpServlet {
 
         session.setAttribute("currentUser", currentUser);
 
-        request.setAttribute("adverts", advertService.findAll());
+        request.setAttribute(ADVERTS, actualAdverts(advertService.findAll()));
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher(ADVERTS_ROOT);
 
         try {
             dispatcher.forward(request, response);
-            logger.info("list of adverts");
+            logger.info("Display list of actual ads");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -138,13 +141,13 @@ public class HomeServlet extends HttpServlet {
 
         long authorId = Long.parseLong(request.getParameter("authorId"));
 
-        request.setAttribute("adverts", advertService.findByAuthorId(authorId));
+        request.setAttribute(ADVERTS, advertService.findByAuthorId(authorId));
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher(ADVERTS_ROOT);
 
         try {
             dispatcher.forward(request, response);
-            logger.info("filter by author id");
+            logger.info("Filter all ads by author id");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -154,13 +157,13 @@ public class HomeServlet extends HttpServlet {
 
         AdvertGenre advertGenre = AdvertGenre.getByName(request.getParameter(ADVERT_GENRE));
 
-        request.setAttribute("adverts", advertService.findByGenre(advertGenre));
+        request.setAttribute(ADVERTS, actualAdverts(advertService.findByGenre(advertGenre)));
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/advert-list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher(ADVERTS_ROOT);
 
         try {
             dispatcher.forward(request, response);
-            logger.info("filter by genre");
+            logger.info("Filter actual ads by genre");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -173,7 +176,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
-            logger.info("user list");
+            logger.info("Display the list of users");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -184,7 +187,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
-            logger.info("register form");
+            logger.info("Display register form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -198,7 +201,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
-            logger.info("edit form");
+            logger.info("Display edit form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -218,7 +221,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("/");
-            logger.info("add advert");
+            logger.info("Add new advert");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -238,7 +241,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("/");
-            logger.info("update advert");
+            logger.info("Update advert");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -250,7 +253,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("/");
-            logger.info("delete advert");
+            logger.info("Delete advert");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -264,19 +267,18 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
-            logger.info("advert info");
+            logger.info("Display information about advert");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
     }
-
 
     private void userRegistration(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/registration-form.jsp");
 
         try {
             dispatcher.forward(request, response);
-            logger.info("user registration form");
+            logger.info("Display user registration form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -290,7 +292,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
-            logger.info("user edition form");
+            logger.info("Display user edition form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -301,7 +303,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             dispatcher.forward(request, response);
-            logger.info("user sign in");
+            logger.info("Display user sign in form");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }
@@ -310,26 +312,25 @@ public class HomeServlet extends HttpServlet {
     private void addUser(HttpServletRequest request, HttpServletResponse response) {
         String password = request.getParameter(PASSWORD);
         String hashedPassword = hashPassword(password);
-
-        User user = User.builder()
-                .firstName(request.getParameter("firstName"))
-                .lastName(request.getParameter("lastName"))
-                .password(hashedPassword)
-                .dateOfBirth(convertSqlDateToLocalDate(request.getParameter("dateOfBirth")))
-                .email(request.getParameter("email"))
-                .userRole(UserRole.USER)
-                .userStatus(UserStatus.NEWCOMER)
-                .build();
-        userService.save(user);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/userlist");
-
-        try {
-            rd.forward(request, response);
-            logger.info("add user");
-        } catch (ServletException | IOException e) {
-            logger.error(e.getMessage());
+            User user = User.builder()
+                    .firstName(request.getParameter("firstName"))
+                    .lastName(request.getParameter("lastName"))
+                    .password(hashedPassword)
+                    .dateOfBirth(convertSqlDateToLocalDate(request.getParameter("dateOfBirth")))
+                    .email(request.getParameter(EMAIL))
+                    .userRole(UserRole.USER)
+                    .userStatus(UserStatus.NEWCOMER)
+                    .build();
+            userService.save(user);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/list");
+            try {
+                rd.forward(request, response);
+                logger.info("Add new user");
+            } catch (ServletException | IOException e) {
+                logger.error(e.getMessage());
+            }
         }
-    }
+
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response) {
         long userId = Integer.parseInt(request.getParameter(USER_ID));
@@ -339,7 +340,7 @@ public class HomeServlet extends HttpServlet {
                 .lastName(request.getParameter("lastName"))
                 .password(request.getParameter(PASSWORD))
                 .dateOfBirth(convertSqlDateToLocalDate(request.getParameter("dateOfBirth")))
-                .email(request.getParameter("email"))
+                .email(request.getParameter(EMAIL))
                 .userRole(UserRole.getByName(request.getParameter("userRole")))
                 .userStatus(UserStatus.NEWCOMER)
                 .build();
@@ -347,7 +348,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("userlist");
-            logger.info("update user");
+            logger.info("Update user");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -359,7 +360,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             response.sendRedirect("userlist");
-            logger.info("delete user");
+            logger.info("Delete user");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -367,26 +368,12 @@ public class HomeServlet extends HttpServlet {
 
     private void loginUser(HttpServletRequest request, HttpServletResponse response) {
 
-        String username = request.getParameter(LOGIN);
-        String password = request.getParameter(PASSWORD);
-
-        if (!checkPassword(password, userService.findByLogin(username).getPassword())) {
-            request.setAttribute("ERROR", "Invalid email or password");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/pages/error.jsp");
-            try {
-                dispatcher.forward(request, response);
-                logger.error("Invalid email or password");
-            } catch (ServletException | IOException e) {
-                logger.error(e.getMessage());
-            }
-        } else {
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
-            try {
-                rd.forward(request, response);
-                logger.info("log in");
-            } catch (ServletException | IOException e) {
-                logger.error(e.getMessage());
-            }
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
+        try {
+            rd.forward(request, response);
+            logger.info("Log in");
+        } catch (ServletException | IOException e) {
+            logger.error(e.getMessage());
         }
     }
 
@@ -396,7 +383,7 @@ public class HomeServlet extends HttpServlet {
 
         try {
             rd.forward(request, response);
-            logger.info("log out");
+            logger.info("Log out");
         } catch (ServletException | IOException e) {
             logger.error(e.getMessage());
         }

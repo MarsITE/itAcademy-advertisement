@@ -10,12 +10,7 @@
 <body>
 
 <header>
-    <c:if test="${sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-        <jsp:include page="header.jsp"/>
-    </c:if>
-    <c:if test="${!sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-        <jsp:include page="header-user.jsp"/>
-    </c:if>
+    <jsp:include page="header.jsp"/>
     <br>
 </header>
 
@@ -33,7 +28,8 @@
             <br>
             <br>
 
-            <h6 title="Advert duration" class="form-control"><c:out value='from ${advert.publishingDate} to ${advert.endingDate}'/></h6>
+            <h6 title="Advert duration" class="form-control"><c:out
+                    value='from ${advert.publishingDate} to ${advert.endingDate}'/></h6>
 
             <h6 title="Advert genre" class="form-control"><c:out value='${advert.advertGenre.name}'/></h6>
 
