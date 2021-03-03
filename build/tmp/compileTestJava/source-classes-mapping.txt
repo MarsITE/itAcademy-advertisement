@@ -12,3 +12,5 @@ academy/softserve/service/AdvertServiceTest.java
  academy.softserve.service.AdvertServiceTest
 academy/softserve/repository/UserRepositoryTest.java
  academy.softserve.repository.UserRepositoryTest
+academy/softserve/repository/RepositoryTest.java
+ academy.softserve.repository.RepositoryTest

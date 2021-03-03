@@ -1,32 +1,33 @@
-/*package academy.softserve.repository;
+package academy.softserve.repository;
 
 import academy.softserve.configuration.ConnectionConfig;
+import academy.softserve.configuration.tables.TablesRepository;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 
 public class RepositoryTest {
-    ConnectionConfig connectionConfig;
+ //   ConnectionConfig connectionConfig = new ConnectionConfig("src/test/testresourses/db.properties");
     TablesRepository tr = new TablesRepository();
 
-    @BeforeMethod
-    public void SetUp() {
-        connectionConfig = new ConnectionConfig(Paths.get("src/test/testresourses/db.properties"));
+    @Test
+    public void testCreateTables() {
+        Assert.assertTrue(tr.createTables());
     }
 
-    @Test(expectedExceptions = SQLException.class)
-    public void testSQLException() throws SQLException, IOException {
-        connectionConfig = new ConnectionConfig(Paths.get("src/test/testresourses/badDB.properties"));
+/*    @Test(expectedExceptions = SQLException.class)
+    public void testSQLException() throws SQLException {
+        connectionConfig = new ConnectionConfig("src/test/testresourses/badDB.properties");
         connectionConfig.getConnection();
     }
 
     @Test(expectedExceptions = IOException.class)
-    public void testIOException() throws SQLException, IOException {
-        connectionConfig = new ConnectionConfig(Paths.get("db.properties"));
+    public void testIOException() throws SQLException {
+        connectionConfig = new ConnectionConfig("db.properties");
         connectionConfig.getConnection();
-    }
-}*/
+    }*/
+}

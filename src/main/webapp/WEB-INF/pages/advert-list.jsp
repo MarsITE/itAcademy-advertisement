@@ -6,9 +6,10 @@
 <html lang="en">
 <head>
     <title>Advert list</title>
+
     <script>
         function deleteAdvert(id) {
-            var result = confirm('Do you want to delete advert?');
+            var result = confirm('Do you want to delete this advert?');
             if (result) {
                 var f = document.form;
                 f.method = "post";

@@ -9,7 +9,7 @@
 
     <script>
 
-        const patternOnlyLetters = /^[A-Za-z]{2,15}/;
+        const namePattern = /^[A-Za-z]{2,15}/;
 
         function validateUser() {
             return isNameValid() && isSurnameValid() && isEmailValid()
@@ -19,7 +19,7 @@
             const firstname = document.getElementById("firstName").value;
             const errorFirstname = document.getElementById("errorFirstName");
             var isValid = false;
-            if (!patternOnlyLetters.test(firstname)) {
+            if (!namePattern.test(firstname)) {
                 errorFirstname.innerHTML = "First name must be between 2 and 15 characters";
                 isValid = false;
             } else {
@@ -33,7 +33,7 @@
             const lastname = document.getElementById("lastName").value;
             const errorLastName = document.getElementById("errorLastName");
             var isValid = false;
-            if (!patternOnlyLetters.test(lastname)) {
+            if (!namePattern.test(lastname)) {
                 errorLastName.innerHTML = "Last name must be between 2 and 15 characters";
                 isValid = false;
             } else {
@@ -49,7 +49,7 @@
             const patternIsEmail = /\S+@\S+\.\S+/;
             var isValid = false;
             if (!patternIsEmail.test(email)) {
-                errorEmail.innerHTML = "Email should have @ and be like <i>(example@mail.com)<i>"
+                errorEmail.innerHTML = "Email should be like - example@mail.com"
                 isValid = false;
             } else {
                 errorEmail.innerHTML = "";
