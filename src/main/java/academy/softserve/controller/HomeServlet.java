@@ -27,15 +27,6 @@ public class HomeServlet extends HttpServlet {
     private final UserServiceImpl userService = new UserServiceImpl();
     private final TablesRepository tablesRepository = new TablesRepository();
 
-    private static final String LOGIN = "username";
-    private static final String PASSWORD = "password";
-    private static final String USER_ID = "userId";
-    private static final String ADVERT_ID = "advertId";
-    private static final String ADVERT_GENRE = "advertGenre";
-    private static final String ADVERTS = "adverts";
-    private static final String ADVERTS_ROOT = "/WEB-INF/pages/advert-list.jsp";
-    private static final String EMAIL = "email";
-
     private User currentUser;
 
     @Override

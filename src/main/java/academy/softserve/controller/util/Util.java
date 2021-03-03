@@ -2,6 +2,7 @@ package academy.softserve.controller.util;
 
 import academy.softserve.model.Advert;
 import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +11,14 @@ import java.util.Optional;
 
 public class Util {
     private static final int WORK_LOAD = 12;
+    public static final String LOGIN = "username";
+    public static final String PASSWORD = "password";
+    public static final String USER_ID = "userId";
+    public static final String ADVERT_ID = "advertId";
+    public static final String ADVERT_GENRE = "advertGenre";
+    public static final String ADVERTS = "adverts";
+    public static final String ADVERTS_ROOT = "/WEB-INF/pages/advert-list.jsp";
+    public static final String EMAIL = "email";
 
     private Util() {
     }
