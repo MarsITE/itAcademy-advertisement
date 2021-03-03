@@ -99,7 +99,7 @@ public class AdvertRepositoryImpl implements AdvertRepository {
     @Override
     public List<Advert> findAll() {
         List<Advert> adverts = new ArrayList<>();
-        String query = SELECT_FROM + TABLE_ADVERT_NAME + " order by " + ADVERT_PUBLISHING_DATE + " desc, " + ADVERT_TITLE;
+        String query = SELECT_FROM + TABLE_ADVERT_NAME + ORDER + ADVERT_PUBLISHING_DATE + DESC + ADVERT_TITLE;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {
@@ -114,7 +114,7 @@ public class AdvertRepositoryImpl implements AdvertRepository {
     @Override
     public List<Advert> findByAuthorId(long id) {
         List<Advert> adverts = new ArrayList<>();
-        String query = SELECT_FROM + TABLE_ADVERT_NAME + WHERE + ADVERT_AUTHOR + "=" + id + " order by " + ADVERT_PUBLISHING_DATE + " desc, " + ADVERT_TITLE;
+        String query = SELECT_FROM + TABLE_ADVERT_NAME + WHERE + ADVERT_AUTHOR + "=" + id + ORDER + ADVERT_PUBLISHING_DATE + DESC + ADVERT_TITLE;
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {
@@ -129,7 +129,7 @@ public class AdvertRepositoryImpl implements AdvertRepository {
     @Override
     public List<Advert> findByGenre(AdvertGenre advertGenre) {
         List<Advert> adverts = new ArrayList<>();
-        String query = SELECT_FROM + TABLE_ADVERT_NAME + WHERE + ADVERT_GENRE + "='" + advertGenre + "'" + " order by " + ADVERT_PUBLISHING_DATE + " desc, " + ADVERT_TITLE;
+        String query = SELECT_FROM + TABLE_ADVERT_NAME + WHERE + ADVERT_GENRE + "='" + advertGenre + "'" + ORDER + ADVERT_PUBLISHING_DATE + DESC + ADVERT_TITLE;
 
         try (Statement statement = config.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
