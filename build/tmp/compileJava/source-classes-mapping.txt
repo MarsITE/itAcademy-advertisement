@@ -30,8 +30,8 @@ academy/softserve/repository/UserRepositoryImpl.java
  academy.softserve.repository.UserRepositoryImpl
 academy/softserve/service/AdvertServiceImpl.java
  academy.softserve.service.AdvertServiceImpl
-academy/softserve/controller/HomeServlet.java
- academy.softserve.controller.HomeServlet
+academy/softserve/controller/filter/RegisterFilter.java
+ academy.softserve.controller.filter.RegisterFilter
 academy/softserve/service/ValidatorServiceImpl.java
  academy.softserve.service.ValidatorServiceImpl
 academy/softserve/model/Advert.java
@@ -40,5 +40,5 @@ academy/softserve/model/Advert.java
 academy/softserve/model/User.java
  academy.softserve.model.User
  academy.softserve.model.User$UserBuilder
-academy/softserve/controller/filter/RegisterFilter.java
- academy.softserve.controller.filter.RegisterFilter
+academy/softserve/controller/HomeServlet.java
+ academy.softserve.controller.HomeServlet

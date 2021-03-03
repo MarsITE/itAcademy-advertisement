@@ -6,6 +6,20 @@
 <html lang="en">
 <head>
     <title>User list</title>
+
+    <script>
+        function deleteUser(id) {
+            var result = confirm('Do you want to delete user?');
+            if (result) {
+                var f = document.form;
+                f.method = "post";
+                f.action = '/deleteUser?userId=' + id;
+                f.submit();
+            } else {
+                return false;
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -26,14 +40,14 @@
             <caption hidden> User list</caption>
             <thead>
             <tr>
-                <th id="firstName">First Name</th>
-                <th id="lastName">Last Name</th>
-                <th id="email">Email</th>
-                <th id="dateOfBirth">Date Of Birth</th>
-                <th id="userRole">Role</th>
-                <th id="userStatus">Status</th>
+                <th style="text-align: center;" id="firstName">First Name</th>
+                <th style="text-align: center;" id="lastName">Last Name</th>
+                <th style="text-align: center;" id="email">Email</th>
+                <th style="text-align: center;" id="dateOfBirth">Date Of Birth</th>
+                <th style="text-align: center;" id="userRole">Role</th>
+                <th style="text-align: center;" id="userStatus">Status</th>
                 <c:if test="${sessionScope.currentUser != null}">
-                    <th id="action">Actions</th>
+                    <th style="text-align: center;" colspan="2" id="action">Actions</th>
                 </c:if>
             </tr>
             </thead>
@@ -42,32 +56,57 @@
             <c:forEach var="user" items="${users}">
 
                 <tr>
-                    <td><c:out value="${user.firstName}"/></td>
-                    <td><c:out value="${user.lastName}"/></td>
-                    <td><c:out value="${user.email}"/></td>
-                    <td><c:out value="${user.dateOfBirth}"/></td>
-                    <td><c:out value="${user.userRole.name}"/></td>
-                    <td><c:out value="${user.userStatus.name}"/></td>
+                    <td style="text-align: center;"><c:out value="${user.firstName}"/></td>
+                    <td style="text-align: center;"><c:out value="${user.lastName}"/></td>
+                    <td style="text-align: center;"><c:out value="${user.email}"/></td>
+                    <td style="text-align: center;"><c:out value="${user.dateOfBirth}"/></td>
+                    <td style="text-align: center;"><c:out value="${user.userRole.name}"/></td>
+                    <td style="text-align: center;"><c:out value="${user.userStatus.name}"/></td>
 
                     <c:if test="${sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-                    <td>
-                        <a href="editUser?userId=<c:out value='${user.id}' />"> Edit </a>
 
-                        <a style="margin-left: 20px" href="deleteUser?userId=<c:out value='${user.id}' />">
-                            Delete </a>
-                    </td>
+                        <td style="text-align: center;">
+                            <div class="btn-group" role="group">
+                                <form method="get" action=editUser>
+                                    <input type="hidden" name="userId" value="${user.id}">
+                                    <button type="submit" class="btn btn-success">Edit</button>
+                                </form>
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <div class="btn-group" role="group">
+                                <form method="post" action="deleteUser" onsubmit="return deleteUser(${user.id});">
+                                    <input type="hidden" name="userId" value="${user.id}">
+                                    <button type="submit" class="btn btn-success">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+
                     </c:if>
 
                     <c:if test="${!sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
                         <c:if test="${sessionScope.currentUser != null}">
-                            <td>
-                            <c:if test="${sessionScope.currentUser.id == user.id}">
-                                <a href="editUser?userId=<c:out value='${user.id}' />"> Edit </a>
-
-                                <a style="margin-left: 20px" href="deleteUser?userId=<c:out value='${user.id}' />">
-                                    Delete </a>
-                                </td>
-                            </c:if>
+                            <td style="text-align: center;">
+                                <c:if test="${sessionScope.currentUser.id == user.id}">
+                                    <div class="btn-group" role="group">
+                                        <form method="get" action=editUser>
+                                            <input type="hidden" name="userId" value="${user.id}">
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </form>
+                                    </div>
+                                </c:if>
+                            </td>
+                            <td style="text-align: center;">
+                                <c:if test="${sessionScope.currentUser.id == user.id}">
+                                    <div class="btn-group" role="group">
+                                        <form method="post" action="deleteUser"
+                                              onsubmit="return deleteUser(${user.id});">
+                                            <input type="hidden" name="userId" value="${user.id}">
+                                            <button type="submit" class="btn btn-success">Delete</button>
+                                        </form>
+                                    </div>
+                                </c:if>
+                            </td>
                         </c:if>
                     </c:if>
                 </tr>

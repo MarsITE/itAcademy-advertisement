@@ -13,7 +13,7 @@
     <br>
 </header>
 
-<div class="login-container" align="center">
+<div style="text-align: center;" class="login-container">
     <h1 class="label-sign-in">Log in</h1>
     <br>
     <form class="form-login" method="post" action="login">

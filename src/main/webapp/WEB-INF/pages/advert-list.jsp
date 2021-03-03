@@ -6,6 +6,19 @@
 <html lang="en">
 <head>
     <title>Advert list</title>
+    <script>
+        function deleteAdvert(id) {
+            var result = confirm('Do you want to delete advert?');
+            if (result) {
+                var f = document.form;
+                f.method = "post";
+                f.action = '/delete?advertId=' + id;
+                f.submit();
+            } else {
+                return false;
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -29,13 +42,13 @@
                     <caption hidden>List of adverts</caption>
                     <thead>
                     <tr>
-                        <th id="title">Title</th>
-                        <th id="publishingDate">Publishing date</th>
-                        <th id="endingDate">Ending date</th>
-                        <th id="genre">Genre</th>
-                        <th id="author">Author</th>
+                        <th style="text-align: center;" id="title">Title</th>
+                        <th style="text-align: center;" id="publishingDate">Publishing date</th>
+                        <th style="text-align: center;" id="endingDate">Ending date</th>
+                        <th style="text-align: center;" id="genre">Genre</th>
+                        <th style="text-align: center;" id="author">Author</th>
                         <c:if test="${sessionScope.currentUser != null}">
-                            <th id="action">Actions</th>
+                            <th style="text-align: center;" colspan="2" id="action">Actions</th>
                         </c:if>
                     </tr>
                     </thead>
@@ -44,42 +57,65 @@
                     <c:forEach var="advert" items="${adverts}">
 
                         <tr>
-                            <td><a title="${advert.description}"
+                            <td style="text-align: center;"><a title="${advert.description}"
                                    href="advert-info?advertId=<c:out value='${advert.id}' />">
                                 <c:out value="${advert.title}"/> </a></td>
-                            <td><c:out value="${advert.publishingDate}"/></td>
-                            <td><c:out value="${advert.endingDate}"/></td>
+                            <td style="text-align: center;"><c:out value="${advert.publishingDate}"/></td>
+                            <td style="text-align: center;"><c:out value="${advert.endingDate}"/></td>
 
-                            <td><a href="advertGenre?advertGenre=<c:out value='${advert.advertGenre.name}' />">
+                            <td style="text-align: center;"><a href="advertGenre?advertGenre=<c:out value='${advert.advertGenre.name}' />">
                                 <c:out value="${advert.advertGenre.name}"/> </a>
                             </td>
 
-                            <td><a title="${advert.author.email}"
+                            <td style="text-align: center;"><a title="${advert.author.email}"
                                    href="listByAuthor?authorId=<c:out value='${advert.author.id}' />">
                                 <c:out value="${advert.author.firstName} ${advert.author.lastName}"/> </a>
                             </td>
 
                             <c:if test="${sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
-                                <td>
-                                    <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
 
-                                    <a style="margin-left: 20px"
-                                       href="delete?advertId=<c:out value='${advert.id}' />">
-                                        Delete </a>
+                                <td style="text-align: center;">
+                                    <div class="btn-group" role="group">
+                                        <form method="get" action=edit>
+                                            <input type="hidden" name="advertId" value="${advert.id}">
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </form>
+                                    </div>
                                 </td>
+                                <td style="text-align: center;">
+                                    <div class="btn-group" role="group">
+                                        <form method="post" action="delete" onsubmit="return deleteAdvert(${advert.id});">
+                                            <input type="hidden" name="advertId" value="${advert.id}">
+                                            <button type="submit" class="btn btn-success">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+
                             </c:if>
 
                             <c:if test="${!sessionScope.currentUser.userRole.name.equals(\"Admin\")}">
                                 <c:if test="${sessionScope.currentUser != null}">
-                                    <td>
-                                    <c:if test="${sessionScope.currentUser.id == advert.author.id}">
-                                        <a href="edit?advertId=<c:out value='${advert.id}' />"> Edit </a>
-
-                                        <a style="margin-left: 20px"
-                                           href="delete?advertId=<c:out value='${advert.id}' />">
-                                            Delete </a>
-                                        </td>
-                                    </c:if>
+                                    <td style="text-align: center;">
+                                        <c:if test="${sessionScope.currentUser.id == advert.author.id}">
+                                            <div class="btn-group" role="group">
+                                                <form method="get" action=edit>
+                                                    <input type="hidden" name="advertId" value="${advert.id}">
+                                                    <button type="submit" class="btn btn-success">Edit</button>
+                                                </form>
+                                            </div>
+                                        </c:if>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <c:if test="${sessionScope.currentUser.id == advert.author.id}">
+                                            <div class="btn-group" role="group">
+                                                <form method="post" action="delete"
+                                                      onsubmit="return deleteAdvert(${advert.id});">
+                                                    <input type="hidden" name="advertId" value="${advert.id}">
+                                                    <button type="submit" class="btn btn-success">Delete</button>
+                                                </form>
+                                            </div>
+                                        </c:if>
+                                    </td>
                                 </c:if>
                             </c:if>
 

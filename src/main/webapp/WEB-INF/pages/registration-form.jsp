@@ -6,13 +6,65 @@
 <html lang="en">
 <head>
     <title>Registration form</title>
+
+    <script>
+
+        const patternOnlyLetters = /^[A-Za-z]{2,15}/;
+
+        function validateUser() {
+            return isNameValid() && isSurnameValid() && isEmailValid()
+        }
+
+        function isNameValid() {
+            const firstname = document.getElementById("firstName").value;
+            const errorFirstname = document.getElementById("errorFirstName");
+            var isValid = false;
+            if (!patternOnlyLetters.test(firstname)) {
+                errorFirstname.innerHTML = "First name must be between 2 and 15 characters";
+                isValid = false;
+            } else {
+                errorFirstname.innerHTML = "";
+                isValid = true;
+            }
+            return isValid;
+        }
+
+        function isSurnameValid() {
+            const lastname = document.getElementById("lastName").value;
+            const errorLastName = document.getElementById("errorLastName");
+            var isValid = false;
+            if (!patternOnlyLetters.test(lastname)) {
+                errorLastName.innerHTML = "Last name must be between 2 and 15 characters";
+                isValid = false;
+            } else {
+                errorLastName.innerHTML = "";
+                isValid = true;
+            }
+            return isValid;
+        }
+
+        function isEmailValid() {
+            const email = document.getElementById("email").value;
+            const errorEmail = document.getElementById("errorEmail");
+            const patternIsEmail = /\S+@\S+\.\S+/;
+            var isValid = false;
+            if (!patternIsEmail.test(email)) {
+                errorEmail.innerHTML = "Email should have @ and be like <i>(example@mail.com)<i>"
+                isValid = false;
+            } else {
+                errorEmail.innerHTML = "";
+                isValid = true;
+            }
+            return isValid;
+        }
+
+    </script>
 </head>
 
 <body>
 
 <header>
     <jsp:include page="header.jsp"/>
-
     <br>
 </header>
 
@@ -21,10 +73,10 @@
         <div class="card-body">
 
             <c:if test="${user != null}">
-            <form action="updateUser" method="post">
+            <form action="updateUser" method="post" onsubmit="return validateUser()">
                 </c:if>
                 <c:if test="${user == null}">
-                <form action="addUser" method="post">
+                <form action="addUser" method="post" onsubmit="return validateUser()">
                     </c:if>
 
                     <caption>
@@ -46,43 +98,48 @@
                     <fieldset class="form-group">
                         <label>First Name</label> <input type="text"
                                                          value="<c:out value='${user.firstName}' />"
-                                                         class="form-control"
+                                                         class="form-control" id="firstName"
                                                          name="firstName" required="required">
+                        <span class="error-firstname" id="errorFirstName"></span>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label>Last Name</label> <input type="text"
                                                         value="<c:out value='${user.lastName}' />"
-                                                        class="form-control"
+                                                        class="form-control" id="lastName"
                                                         name="lastName" required="required">
+                        <span class="error-lastname" id="errorLastName"></span>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label>Password</label> <input type="password"
                                                        value="<c:out value='${user.password}' />"
-                                                       class="form-control"
+                                                       class="form-control" id="password"
                                                        name="password" required="required">
+                        <span class="error-password" id="errorPassword"></span>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label>Date Of Birth</label> <input type="date"
                                                             value="<c:out value='${user.dateOfBirth}' />"
-                                                            class="form-control"
+                                                            class="form-control" id="dateOfBirth"
                                                             name="dateOfBirth" required="required">
+                        <span class="error-dob" id="errorDob"></span>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label>Email</label> <input type="text"
                                                     value="<c:out value='${user.email}' />"
-                                                    class="form-control"
+                                                    class="form-control" id="email"
                                                     name="email" required="required">
+                        <span class="error-email" id="errorEmail"></span>
                     </fieldset>
 
                     <c:if test="${user != null}">
                         <fieldset class="form-group">
                             <label>User role</label> <input title="User, Admin, Anonymous" type="text"
                                                             value="<c:out value='${user.userRole.name}' />"
-                                                            class="form-control"
+                                                            class="form-control" id="userRole"
                                                             name="userRole" required="required">
                         </fieldset>
                     </c:if>

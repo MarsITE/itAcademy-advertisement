@@ -357,7 +357,6 @@ public class HomeServlet extends HttpServlet {
     private void deleteUser(HttpServletRequest request, HttpServletResponse response) {
         long userId = Long.parseLong(request.getParameter(USER_ID));
         userService.delete(userId);
-
         try {
             response.sendRedirect("userlist");
             logger.info("Delete user");
